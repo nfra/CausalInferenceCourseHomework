@@ -1,1 +1,25 @@
-Write a brief (1-3 paragraph) summary of Hansen’s project.  What is his question and the theory behind it? What data does he use and what his research design?  What does he find?
+Write a brief (1-3 paragraph) summary of Hansen’s project.  
+What is his question and the theory behind it? 
+What data does he use and what his research design?  
+What does he find?
+
+
+His question:
+
+What is "the effect of harsher punishments and sanctions on driving under the influence"?
+
+
+His data:
+
+"Administrative records on 512,964 DUI stops from the state of Washington from 1995 to 2011."
+He "utilize[s] data from 1999–2007" for those above the legal drinking age.
+
+
+His research design:
+
+He takes advantage of the strict 0.08% and 0.15% blood alcohol content thresholds imposed by Washington state law. "The specific cutoffs for DUI and aggravated DUI allow the usage of a regression discontinuity design (Thistlethwaite and Campbell 1960; Hahn, Todd, and Van der Klaauw 2001) to test the effect of the punishments imposed at BAC thresholds on recidivism." 
+
+
+His findings:
+
+He finds "that having a BAC above the DUI threshold reduces recidivism by up to 2 percentage points (17 percent). Likewise having a BAC over the aggravated DUI threshold reduces recidivism by an additional percentage point (9 percent). The results suggest that the additional sanctions experienced by drunk drivers at BAC thresholds are effective in reducing repeat drunk driving."
