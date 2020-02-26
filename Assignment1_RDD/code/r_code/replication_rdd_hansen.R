@@ -23,14 +23,13 @@ dwi$overlimit <- eval(dwi$bac_min >= 0.08)
 
 # investigate raw data for evidence of manipulation, using histogram
 
-
-ggplot(data = dwi) +
+manipulation_histogram <- ggplot(data = dwi) +
   theme_clean() +
   geom_histogram(aes(x=bac_min), binwidth = 0.001) +
   geom_vline(xintercept = 0.08) +
   geom_vline(xintercept = 0.15) +
   xlab("BAC") +
+  ylab("Frequency")+
   ylim(0,2000)
-  ylab("Frequency")
-  
+manipulation_histogram  
 
