@@ -19,17 +19,27 @@ dwi = read.csv("./data/hansen_dwi.csv")
 #   bac_overlimit is an indicator variable for whether BAC is over the 0.08% limit
 
 dwi$bac_min <- apply(dwi[,c('bac1', 'bac2')], 1, min)
-dwi$overlimit <- eval(dwi$bac_min >= 0.08)
+dwi$over_limit <- as.numeric(eval(dwi$bac_min >= 0.08))
 
-# investigate raw data for evidence of manipulation, using histogram
+# recreate figure 1, histogram of bac_min
 
 manipulation_histogram <- ggplot(data = dwi) +
   theme_clean() +
   geom_histogram(aes(x=bac_min), binwidth = 0.001) +
   geom_vline(xintercept = 0.08) +
   geom_vline(xintercept = 0.15) +
+  labs(title="BAC histogram") +
   xlab("BAC") +
-  ylab("Frequency")+
+  ylab("Frequency") +
   ylim(0,2000)
-manipulation_histogram  
+manipulation_histogram
+
+# check for covariate balance, estimating equation 1
+
+lm_recid <- lm(recidivism ~ male + white + aged + 
+                over_limit + bac_min + over_limit*bac_min, 
+              data=dwi)
+summary(lm_recid)
+
+
 
