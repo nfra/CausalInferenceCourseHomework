@@ -1,0 +1,7 @@
+Replication Questions:
+
+8. The first thing to do in any RDD is look at the raw data and see if there’s any evidence for manipulation.  If people were capable of manipulating their blood alcohol content (bac1), what would that look like?  And do we see that in these data?  Recreate Figure 1 using the bac1 variable as your measure of blood alcohol content.  Do you find evidence for sorting on the running variable?
+
+If people were capable of manipulating their blood alcohol content (BAC) with the precision required to full the breathalyzer, the histogram of BAC would swell to the left of the legal threshold and drop to the right of it. That distortion of the distribution would occur because of the negative legal consequences for being charged with driving while intoxicated.
+
+In Figure 1, the recreation of Hansen's BAC histogram, we do not see any evidence for sorting on the running variable. The characteristic density discontinuity is not present at BAC = 0.08, the black vertical line. 
