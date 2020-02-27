@@ -10,6 +10,7 @@ library(tidyverse)
 library(ggthemes)
 library(gridExtra)
 library(stargazer)
+library(sandwich)
 
 setwd("C:/Users/Nathan/Documents/UT Courses/3. Spring 2019/Causal Inference/CausalInferenceCourseHomework/Assignment1_RDD") 
 
@@ -31,15 +32,18 @@ dwi = read.csv("./data/hansen_dwi.csv")
 #   bac_min is the minimum of the two measured BACs (as used in the paper)
 #   bac_overlimit is an indicator variable for whether BAC is over the 0.08% limit
 
-dwi$bac_min <- apply(dwi[,c('bac1', 'bac2')], 1, min)
-dwi$over_limit <- as.numeric(eval(dwi$bac_min >= 0.08)) + as.numeric(eval(dwi$bac_min >= 0.15)) 
+# dwi$bac_min <- apply(dwi[,c('bac1', 'bac2')], 1, min)
+dwi$over_limit <- as.numeric(eval(dwi$bac1 >= 0.08)) #+ as.numeric(eval(dwi$bac_min >= 0.15)) 
+
+# create running variable centered at 0
+dwi$bac_centered <- dwi$bac1 - 0.08
 
 # recreate figure 1, histogram of bac_min
 
 manipulation_histogram <- ggplot(data = dwi) +
   theme_clean() +
   theme(plot.background = element_blank()) +
-  geom_histogram(aes(x=bac_min), binwidth = 0.001) +
+  geom_histogram(aes(x=bac1), binwidth = 0.001) +
   geom_vline(xintercept = 0.08) +
   geom_vline(xintercept = 0.15) +
   labs(title="BAC histogram") +
@@ -51,11 +55,39 @@ manipulation_histogram
 
 ```{r results='asis', echo=FALSE}
 
-lm_recid <- lm(recidivism ~ male + white + aged + acc +
-                over_limit + bac_min + over_limit*bac_min, 
-              data=dwi)
+# run regressions of covariates on running variable
+lm_male_on_bac <- lm(male ~ bac_centered*over_limit, data=dwi)
+lm_white_on_bac <- lm(white ~ bac_centered*over_limit, data=dwi)
+lm_aged_on_bac <- lm(aged ~ bac_centered*over_limit, data=dwi)
+lm_acc_on_bac <- lm(acc ~ bac_centered*over_limit, data=dwi)
 
-stargazer(lm_recid, title='Results', header=FALSE)
+models <- list(lm_male_on_bac, lm_white_on_bac, lm_aged_on_bac, lm_acc_on_bac)
+
+# calculate robust standard errors for each regression
+
+cov_male <- vcovHC(lm_male_on_bac, type = "HC")
+robust_se_male <- sqrt(diag(cov_male))
+cov_white <- vcovHC(lm_white_on_bac, type = "HC")
+robust_se_white <- sqrt(diag(cov_white))
+cov_aged <- vcovHC(lm_aged_on_bac, type = "HC")
+robust_se_aged <- sqrt(diag(cov_aged))
+cov_acc <- vcovHC(lm_acc_on_bac, type = "HC")
+robust_se_acc <- sqrt(diag(cov_acc))
+
+robust_se_list <- list(robust_se_male, robust_se_white, 
+                      robust_se_aged, robust_se_acc)
+
+# create Latex table
+
+stargazer(models, header = FALSE, style = "aer", 
+          title = "Regression Discontinuity Estimates for the Effect 
+          of Exceeding BAC Thresholds on Predetermined Characteristics",
+          column.labels = c("Male", "White","Age", "Accident"),
+          covariate.labels = c("DUI"),
+          omit = c("Constant", "bac_centered", "bac_centered:over_limit"),
+          se = robust_se_list,
+          dep.var.caption = '',
+          dep.var.labels.include = FALSE)
 
 ```
 
@@ -64,7 +96,7 @@ stargazer(lm_recid, title='Results', header=FALSE)
 ```{r figure2_rep, echo=FALSE}
 # recreate figure 2, panels A-D
 
-dwi$bac_bucket <- cut(dwi$bac_min, seq(from=0, to=0.436, by=0.002), 
+dwi$bac_bucket <- cut(dwi$bac1, seq(from=0, to=0.436, by=0.002), 
                       labels=(seq(from=0.001, to=0.435, by=0.002)),
                       include.lowest=TRUE)
 
@@ -76,17 +108,17 @@ dwi_accident_sum <- dwi %>%
     mean_acc = mean(acc),
     mean_aged = mean(aged),
     number_obs = n(),
-    over_limit = unique(as.numeric(eval(bac_min >= 0.08)))
+    over_limit = unique(as.numeric(over_limit))
   )
 
-dwi_accident_sum$bac_min <- as.numeric(as.character(dwi_accident_sum$bac_bucket))
+dwi_accident_sum$bac1 <- as.numeric(as.character(dwi_accident_sum$bac_bucket))
 
 # panel A - accident at scene
 
 dwi_accident_sum$acc <- dwi_accident_sum$mean_acc
 
 panel_a <- ggplot(data = dwi, 
-       aes(x = bac_min, 
+       aes(x = bac1, 
            y = acc, 
            group = over_limit)) +
   theme_clean() +
@@ -94,7 +126,7 @@ panel_a <- ggplot(data = dwi,
   geom_point(data = dwi_accident_sum, shape = 1) +
   geom_smooth(method = 'lm', color = 'black') +
   geom_vline(xintercept = 0.08) +
-  geom_vline(xintercept = 0.15) +
+  #geom_vline(xintercept = 0.15) +
   labs(title="Panel A. Accident at scene") +
   xlab("BAC") +
   ylab("") +
@@ -105,7 +137,7 @@ panel_a <- ggplot(data = dwi,
 dwi_accident_sum$male <- dwi_accident_sum$mean_male
 
 panel_b <- ggplot(data = dwi, 
-                  aes(x = bac_min, 
+                  aes(x = bac1, 
                       y = male, 
                       group = over_limit)) +
   theme_clean() +
@@ -113,7 +145,7 @@ panel_b <- ggplot(data = dwi,
   geom_point(data = dwi_accident_sum, shape = 1) +
   geom_smooth(method = 'lm', color = 'black') +
   geom_vline(xintercept = 0.08) +
-  geom_vline(xintercept = 0.15) +
+  #geom_vline(xintercept = 0.15) +
   labs(title="Panel B. Male") +
   xlab("BAC") +
   ylab("") +
@@ -124,7 +156,7 @@ panel_b <- ggplot(data = dwi,
 dwi_accident_sum$aged <- dwi_accident_sum$mean_aged
 
 panel_c <- ggplot(data = dwi, 
-                  aes(x = bac_min, 
+                  aes(x = bac1, 
                       y = aged, 
                       group = over_limit)) +
   theme_clean() +
@@ -132,7 +164,7 @@ panel_c <- ggplot(data = dwi,
   geom_point(data = dwi_accident_sum, shape = 1) +
   geom_smooth(method = 'lm', color = 'black') +
   geom_vline(xintercept = 0.08) +
-  geom_vline(xintercept = 0.15) +
+  #geom_vline(xintercept = 0.15) +
   labs(title="Panel C. Age") +
   xlab("BAC") +
   ylab("") +
@@ -143,7 +175,7 @@ panel_c <- ggplot(data = dwi,
 dwi_accident_sum$white <- dwi_accident_sum$mean_white
 
 panel_d <- ggplot(data = dwi, 
-                  aes(x = bac_min, 
+                  aes(x = bac1, 
                       y = white, 
                       group = over_limit)) +
   theme_clean() +
@@ -151,7 +183,7 @@ panel_d <- ggplot(data = dwi,
   geom_point(data = dwi_accident_sum, shape = 1) +
   geom_smooth(method = 'lm', color = 'black') +
   geom_vline(xintercept = 0.08) +
-  geom_vline(xintercept = 0.15) +
+  #geom_vline(xintercept = 0.15) +
   labs(title="Panel D. White") +
   xlab("BAC") +
   ylab("") +
@@ -168,7 +200,7 @@ grid.arrange(panel_a, panel_b, panel_c, panel_d, nrow = 2)
 # panel A - accident at scene
 
 panel_a_quadratic <- ggplot(data = dwi, 
-                  aes(x = bac_min, 
+                  aes(x = bac1, 
                       y = acc, 
                       group = over_limit)) +
   theme_clean() +
@@ -176,7 +208,7 @@ panel_a_quadratic <- ggplot(data = dwi,
   geom_point(data = dwi_accident_sum, shape = 1) +
   geom_smooth(method = 'lm', formula= y ~ poly(x,2), color = 'black') +
   geom_vline(xintercept = 0.08) +
-  geom_vline(xintercept = 0.15) +
+  #geom_vline(xintercept = 0.15) +
   labs(title="Panel A. Accident at scene") +
   xlab("BAC") +
   ylab("") +
@@ -185,7 +217,7 @@ panel_a_quadratic <- ggplot(data = dwi,
 # panel B - male
 
 panel_b_quadratic <- ggplot(data = dwi, 
-                  aes(x = bac_min, 
+                  aes(x = bac1, 
                       y = male, 
                       group = over_limit)) +
   theme_clean() +
@@ -193,7 +225,7 @@ panel_b_quadratic <- ggplot(data = dwi,
   geom_point(data = dwi_accident_sum, shape = 1) +
   geom_smooth(method = 'lm', formula= y ~ poly(x,2), color = 'black') +
   geom_vline(xintercept = 0.08) +
-  geom_vline(xintercept = 0.15) +
+  #geom_vline(xintercept = 0.15) +
   labs(title="Panel B. Male") +
   xlab("BAC") +
   ylab("") +
@@ -202,7 +234,7 @@ panel_b_quadratic <- ggplot(data = dwi,
 # panel C - age
 
 panel_c_quadratic <- ggplot(data = dwi, 
-                  aes(x = bac_min, 
+                  aes(x = bac1, 
                       y = aged, 
                       group = over_limit)) +
   theme_clean() +
@@ -210,7 +242,7 @@ panel_c_quadratic <- ggplot(data = dwi,
   geom_point(data = dwi_accident_sum, shape = 1) +
   geom_smooth(method = 'lm', formula= y ~ poly(x,2), color = 'black') +
   geom_vline(xintercept = 0.08) +
-  geom_vline(xintercept = 0.15) +
+  #geom_vline(xintercept = 0.15) +
   labs(title="Panel C. Age") +
   xlab("BAC") +
   ylab("") +
@@ -219,7 +251,7 @@ panel_c_quadratic <- ggplot(data = dwi,
 # panel D - white
 
 panel_d_quadratic <- ggplot(data = dwi, 
-                  aes(x = bac_min, 
+                  aes(x = bac1, 
                       y = white, 
                       group = over_limit)) +
   theme_clean() +
@@ -227,7 +259,7 @@ panel_d_quadratic <- ggplot(data = dwi,
   geom_point(data = dwi_accident_sum, shape = 1) +
   geom_smooth(method = 'lm', formula= y ~ poly(x,2), color = 'black') +
   geom_vline(xintercept = 0.08) +
-  geom_vline(xintercept = 0.15) +
+  #geom_vline(xintercept = 0.15) +
   labs(title="Panel D. White") +
   xlab("BAC") +
   ylab("") +

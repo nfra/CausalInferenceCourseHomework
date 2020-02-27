@@ -11,6 +11,7 @@ library(gridExtra)
 library(stargazer)
 library(rdrobust)
 library(rdd)
+library(sandwich)
 
 setwd("C:/Users/Nathan/Documents/UT Courses/3. Spring 2019/Causal Inference/CausalInferenceCourseHomework/Assignment1_RDD") 
 
@@ -23,7 +24,7 @@ dwi = read.csv("./data/hansen_dwi.csv")
 #   bac_overlimit is an indicator variable for whether BAC is over the 0.08% limit
 
 dwi$bac_min <- apply(dwi[,c('bac1', 'bac2')], 1, min)
-dwi$over_limit <- as.numeric(eval(dwi$bac_min >= 0.08)) + as.numeric(eval(dwi$bac_min >= 0.15)) 
+dwi$over_limit <- as.numeric(eval(dwi$bac_min >= 0.08)) #+ as.numeric(eval(dwi$bac_min >= 0.15)) 
 
 # recreate figure 1, histogram of bac_min
 
@@ -39,12 +40,46 @@ manipulation_histogram <- ggplot(data = dwi) +
   ylim(0,2000)
 manipulation_histogram
 
-# check for covariate balance, estimating equation 1
+# check for covariate balance
 
-lm_recid <- lm(recidivism ~ male + white + aged + acc +
-                over_limit + bac_min + over_limit*bac_min, 
-              data=dwi)
-summary(lm_recid)
+# create running variable centered at 0
+dwi$bac_centered <- dwi$bac_min - 0.08
+
+# run regressions of covariates on running variable
+lm_male_on_bac <- lm(male ~ bac_centered*over_limit, data=dwi)
+lm_white_on_bac <- lm(white ~ bac_centered*over_limit, data=dwi)
+lm_aged_on_bac <- lm(aged ~ bac_centered*over_limit, data=dwi)
+lm_acc_on_bac <- lm(acc ~ bac_centered*over_limit, data=dwi)
+
+models <- list(lm_male_on_bac, lm_white_on_bac, lm_aged_on_bac, lm_acc_on_bac)
+
+
+# calculate robust standard errors for each regression
+
+cov_male <- vcovHC(lm_male_on_bac, type = "HC")
+robust_se_male <- sqrt(diag(cov_male))
+cov_white <- vcovHC(lm_white_on_bac, type = "HC")
+robust_se_white <- sqrt(diag(cov_white))
+cov_aged <- vcovHC(lm_aged_on_bac, type = "HC")
+robust_se_aged <- sqrt(diag(cov_aged))
+cov_acc <- vcovHC(lm_acc_on_bac, type = "HC")
+robust_se_acc <- sqrt(diag(cov_acc))
+
+robust_se_list <- list(robust_se_male, robust_se_white, 
+                      robust_se_aged, robust_se_acc)
+
+
+# create Latex table
+table_1_cvar_bal <- stargazer(models, 
+                              header = FALSE, 
+                              style = "aer", 
+                              title = "Regression Discontinuity Estimates for the Effect of Exceeding BAC Thresholds on Predetermined Characteristics",
+                              column.labels = c("Male", "White","Age", "Accident"),
+                              covariate.labels = c("DUI"),
+                              omit = c("Constant", "bac_centered", "bac_centered:over_limit"),
+                              se = robust_se_list,
+                              dep.var.caption  = "abc",
+                              dep.var.labels.include = FALSE)
 
 
 # recreate figure 2, panels A-D
@@ -230,7 +265,10 @@ grid.arrange(panel_a_quadratic, panel_b_quadratic,
              panel_c_quadratic, panel_d_quadratic, nrow = 2)
 
 
+# extras
 
-
-
+lm_recid <- lm(recidivism ~ male + white + aged + acc +
+                 over_limit + bac_min + over_limit*bac_min, 
+               data=dwi)
+summary(lm_recid)
 
