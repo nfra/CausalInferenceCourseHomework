@@ -5,7 +5,7 @@ date: "2/27/2020"
 output: pdf_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=TRUE}
 library(tidyverse)
 library(ggthemes)
 library(gridExtra)
@@ -20,18 +20,22 @@ dwi = read.csv("./data/hansen_dwi.csv")
 
 # Summary of Hansen's Project
 
+Hansen investigates whether harsher punishments influence the rate of recidivism among drunk drivers, using Washington state administrative records on DUI stops from 1995 to 2011. His investigation is motivated by theoretical results, such as Becker's seminal "Crime and Punishment" paper from 1974, that posit that crime is rational behavior given the incentive structure for would-be criminals.
 
+He uses a regression discontinuity design taking advantage of the strict 0.08% and 0.15% blood alcohol content (BAC) thresholds for DUI and aggravated DUI charges, respectively. He estimates the local average treatment effect (LATE) of the punishments associated with DUI on recidivism rate within the next four years.
+
+He finds that having a BAC over the 0.08 DUI threshold reduces recidivism by as much as 2 percentage points among all tested drivers. He also finds that having a BAC over the 0.15 aggravated DUI threshold further reduces recidivism by as much as 1 percentage point.
 
 
 # Replication
 
 ## Density of the Running Variable
 
-If people were capable of manipulating their blood alcohol content (BAC) with the precision required to full the breathalyzer, the histogram of BAC would swell to the left of the legal threshold and drop to the right of it. That distortion of the distribution would occur because of the negative legal consequences for being charged with driving while intoxicated.
+If people were capable of manipulating their blood alcohol content (BAC) with the precision required to fool the breathalyzer, the histogram of BAC would swell to the left of the legal threshold and drop to the right of it. That distortion of the distribution would occur because of the negative legal consequences for being charged with driving while intoxicated.
 
 In the recreation of Hansen's BAC histogram below we do not see any evidence for sorting on the running variable. The characteristic density discontinuity is not present at BAC = 0.08, the black vertical line. 
 
-```{r manipulation_histogram, echo=FALSE}
+```{r manipulation_histogram, echo=TRUE}
 # add new vars: 
 #   bac_min is the minimum of the two measured BACs (as used in the paper)
 #   bac_overlimit is an indicator variable for whether BAC is over the 0.08% limit
@@ -58,7 +62,7 @@ manipulation_histogram
 
 
 
-```{r results='asis', echo=FALSE}
+```{r results='asis', echo=TRUE}
 
 # run regressions of covariates on running variable
 lm_male_on_bac <- lm(male ~ I(bac1-0.08)*over_limit, data=dwi)
@@ -91,7 +95,7 @@ tbl1 <- stargazer(models, header = FALSE, style = "aer",
 
 ```
 
-As shown in the table above, only age shows a significant discontinuity at the BAC threshold. 
+As shown in Table 1, only age shows a significant discontinuity at the BAC threshold. 
 
 The figure below shows linear model fits. Panel C in the linear model plots illuminates the significant imbalance found for the linear regression of age on BAC presented in the table above. It seems to be an artifact of including high values of BAC, which biases the model; all the average BAC levels (represented by empty dots) within .02 percentage points of the legal BAC threshold lie above the linear fit.
 
@@ -99,7 +103,7 @@ There are several differences between these plots and the corresponding plots pr
  
 Additionally, Panel B in the replication plot shows a positive slope below the 0.08 BAC threshold, unlike the negative slope in the original. Also, Panel C in the original has an age axis that ranges from 0.34 to 0.38, three orders of magnitude smaller than the ranges in the replication.
 
-```{r figure2_rep, echo=FALSE}
+```{r figure2_rep, echo=TRUE}
 # recreate figure 2, panels A-D
 
 dwi$bac_bucket <- cut(dwi$bac1, seq(from=0, to=0.450, by=0.002), 
@@ -194,7 +198,7 @@ grid.arrange(panel_a, panel_b, panel_c, panel_d, nrow = 2)
 The bias introduced by the linear model for age above is fixed by using a quadratic model, presented in Panel C of the figure below. However, the quadratic model also introduces a potentially disqualifying amount of variance. For example, Panel B shows a questionable fit below the legal BAC threshold.
 
 
-```{r figure2_rep_quad, echo=FALSE}
+```{r figure2_rep_quad, echo=TRUE}
 # recreate figure 2, panels A-D, but with quadratic model
 
 # panel A - accident at scene
@@ -272,7 +276,7 @@ grid.arrange(panel_a_quadratic, panel_b_quadratic,
 
 # Regression Discontinuity
 
-```{r results='asis', echo=FALSE}
+```{r results='asis', echo=TRUE}
 
 # Estimate equation 1 with recidivism as the outcome, 
 #   using BAC data in [0.03,0.13]
@@ -311,7 +315,7 @@ stargazer(rd_panel_a_models, header = FALSE, style = "aer",
 
 ```
 
-```{r results='asis', echo=FALSE}
+```{r results='asis', echo=TRUE}
 
 # Estimate equation 1 with recidivism as the outcome, 
 #   using BAC data in [0.055,0.105]
@@ -351,7 +355,7 @@ stargazer(rd_panel_b_models, header = FALSE, style = "aer",
 
 ```
 
-```{r figure3_rep_lin, echo=FALSE}
+```{r figure3_rep_lin, echo=TRUE}
 # Replicate Panel A of figure 3 from paper
 dwi_rd_sum <- dwi[dwi$bac1<0.15,] %>%
   group_by(bac_bucket) %>%
@@ -379,7 +383,7 @@ rd_linear <- ggplot(data = dwi[dwi$bac1<0.15,],
 rd_linear
 ```
 
-```{r figure3_rep_quad, echo=FALSE}
+```{r figure3_rep_quad, echo=TRUE}
 # RD - panel A, quadratic
 rd_quadratic <- ggplot(data = dwi[dwi$bac1<0.15,], 
                             aes(x = bac1, 
