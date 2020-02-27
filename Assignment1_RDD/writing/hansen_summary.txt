@@ -23,3 +23,8 @@ He takes advantage of the strict 0.08% and 0.15% blood alcohol content threshold
 His findings:
 
 He finds "that having a BAC above the DUI threshold reduces recidivism by up to 2 percentage points (17 percent). Likewise having a BAC over the aggravated DUI threshold reduces recidivism by an additional percentage point (9 percent). The results suggest that the additional sanctions experienced by drunk drivers at BAC thresholds are effective in reducing repeat drunk driving."
+
+
+A couple notes:
+The vertical lines in figure 1 in the paper are not where they should be.
+The linear model of figure 2, panel B has opposite slope to mine.
