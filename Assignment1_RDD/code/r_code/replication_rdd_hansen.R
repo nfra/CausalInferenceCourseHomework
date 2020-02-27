@@ -8,6 +8,9 @@
 library(tidyverse)
 library(ggthemes)
 library(gridExtra)
+library(stargazer)
+library(rdrobust)
+library(rdd)
 
 setwd("C:/Users/Nathan/Documents/UT Courses/3. Spring 2019/Causal Inference/CausalInferenceCourseHomework/Assignment1_RDD") 
 
@@ -26,6 +29,7 @@ dwi$over_limit <- as.numeric(eval(dwi$bac_min >= 0.08)) + as.numeric(eval(dwi$ba
 
 manipulation_histogram <- ggplot(data = dwi) +
   theme_clean() +
+  theme(plot.background = element_blank()) +
   geom_histogram(aes(x=bac_min), binwidth = 0.001) +
   geom_vline(xintercept = 0.08) +
   geom_vline(xintercept = 0.15) +
@@ -41,6 +45,7 @@ lm_recid <- lm(recidivism ~ male + white + aged + acc +
                 over_limit + bac_min + over_limit*bac_min, 
               data=dwi)
 summary(lm_recid)
+
 
 # recreate figure 2, panels A-D
 
@@ -70,8 +75,9 @@ panel_a <- ggplot(data = dwi,
            y = acc, 
            group = over_limit)) +
   theme_clean() +
-  geom_point(data = dwi_accident_sum) +
-  geom_smooth(method='lm') +
+  theme(plot.background=element_blank()) +
+  geom_point(data = dwi_accident_sum, shape = 1) +
+  geom_smooth(method = 'lm', color = 'black') +
   geom_vline(xintercept = 0.08) +
   geom_vline(xintercept = 0.15) +
   labs(title="Panel A. Accident at scene") +
@@ -89,8 +95,9 @@ panel_b <- ggplot(data = dwi,
                       y = male, 
                       group = over_limit)) +
   theme_clean() +
-  geom_point(data = dwi_accident_sum) +
-  geom_smooth(method='lm') +
+  theme(plot.background=element_blank()) +
+  geom_point(data = dwi_accident_sum, shape = 1) +
+  geom_smooth(method = 'lm', color = 'black') +
   geom_vline(xintercept = 0.08) +
   geom_vline(xintercept = 0.15) +
   labs(title="Panel B. Male") +
@@ -108,8 +115,9 @@ panel_c <- ggplot(data = dwi,
                       y = aged, 
                       group = over_limit)) +
   theme_clean() +
-  geom_point(data = dwi_accident_sum) +
-  geom_smooth(method='lm') +
+  theme(plot.background=element_blank()) +
+  geom_point(data = dwi_accident_sum, shape = 1) +
+  geom_smooth(method = 'lm', color = 'black') +
   geom_vline(xintercept = 0.08) +
   geom_vline(xintercept = 0.15) +
   labs(title="Panel C. Age") +
@@ -127,8 +135,9 @@ panel_d <- ggplot(data = dwi,
                       y = white, 
                       group = over_limit)) +
   theme_clean() +
-  geom_point(data = dwi_accident_sum) +
-  geom_smooth(method='lm') +
+  theme(plot.background=element_blank()) +
+  geom_point(data = dwi_accident_sum, shape = 1) +
+  geom_smooth(method = 'lm', color = 'black') +
   geom_vline(xintercept = 0.08) +
   geom_vline(xintercept = 0.15) +
   labs(title="Panel D. White") +
@@ -138,9 +147,7 @@ panel_d <- ggplot(data = dwi,
 panel_d
 
 # Assemble panels into figure 2 replication
-figure2_rep <- grid.arrange(panel_a, panel_b, panel_c, panel_d, nrow = 2)
-figure2_rep
-
+grid.arrange(panel_a, panel_b, panel_c, panel_d, nrow = 2)
 
 
 
@@ -153,8 +160,9 @@ panel_a_quadratic <- ggplot(data = dwi,
                       y = acc, 
                       group = over_limit)) +
   theme_clean() +
-  geom_point(data = dwi_accident_sum) +
-  geom_smooth(method = 'lm', formula= y ~ poly(x,2)) +
+  theme(plot.background=element_blank()) +
+  geom_point(data = dwi_accident_sum, shape = 1) +
+  geom_smooth(method = 'lm', formula= y ~ poly(x,2), color = 'black') +
   geom_vline(xintercept = 0.08) +
   geom_vline(xintercept = 0.15) +
   labs(title="Panel A. Accident at scene") +
@@ -170,8 +178,9 @@ panel_b_quadratic <- ggplot(data = dwi,
                       y = male, 
                       group = over_limit)) +
   theme_clean() +
-  geom_point(data = dwi_accident_sum) +
-  geom_smooth(method = 'lm', formula= y ~ poly(x,2)) +
+  theme(plot.background=element_blank()) +
+  geom_point(data = dwi_accident_sum, shape = 1) +
+  geom_smooth(method = 'lm', formula= y ~ poly(x,2), color = 'black') +
   geom_vline(xintercept = 0.08) +
   geom_vline(xintercept = 0.15) +
   labs(title="Panel B. Male") +
@@ -187,8 +196,9 @@ panel_c_quadratic <- ggplot(data = dwi,
                       y = aged, 
                       group = over_limit)) +
   theme_clean() +
-  geom_point(data = dwi_accident_sum) +
-  geom_smooth(method = 'lm', formula= y ~ poly(x,2)) +
+  theme(plot.background=element_blank()) +
+  geom_point(data = dwi_accident_sum, shape = 1) +
+  geom_smooth(method = 'lm', formula= y ~ poly(x,2), color = 'black') +
   geom_vline(xintercept = 0.08) +
   geom_vline(xintercept = 0.15) +
   labs(title="Panel C. Age") +
@@ -204,8 +214,9 @@ panel_d_quadratic <- ggplot(data = dwi,
                       y = white, 
                       group = over_limit)) +
   theme_clean() +
-  geom_point(data = dwi_accident_sum) +
-  geom_smooth(method = 'lm', formula= y ~ poly(x,2)) +
+  theme(plot.background=element_blank()) +
+  geom_point(data = dwi_accident_sum, shape = 1) +
+  geom_smooth(method = 'lm', formula= y ~ poly(x,2), color = 'black') +
   geom_vline(xintercept = 0.08) +
   geom_vline(xintercept = 0.15) +
   labs(title="Panel D. White") +
@@ -215,6 +226,11 @@ panel_d_quadratic <- ggplot(data = dwi,
 panel_d_quadratic
 
 # Assemble panels into figure 2 replication
-figure2_quadratic <- grid.arrange(panel_a_quadratic, panel_b_quadratic, 
-                            panel_c_quadratic, panel_d_quadratic, nrow = 2)
-figure2_quadratic
+grid.arrange(panel_a_quadratic, panel_b_quadratic, 
+             panel_c_quadratic, panel_d_quadratic, nrow = 2)
+
+
+
+
+
+
