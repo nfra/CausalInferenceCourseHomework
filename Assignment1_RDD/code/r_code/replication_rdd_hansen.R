@@ -66,20 +66,19 @@ cov_acc <- vcovHC(lm_acc_on_bac, type = "HC")
 robust_se_acc <- sqrt(diag(cov_acc))
 
 robust_se_list <- list(robust_se_male, robust_se_white, 
-                      robust_se_aged, robust_se_acc)
-
+                       robust_se_aged, robust_se_acc)
 
 # create Latex table
-table_1_cvar_bal <- stargazer(models, 
-                              header = FALSE, 
-                              style = "aer", 
-                              title = "Regression Discontinuity Estimates for the Effect of Exceeding BAC Thresholds on Predetermined Characteristics",
-                              column.labels = c("Male", "White","Age", "Accident"),
-                              covariate.labels = c("DUI"),
-                              omit = c("Constant", "bac_centered", "bac_centered:over_limit"),
-                              se = robust_se_list,
-                              dep.var.caption  = "abc",
-                              dep.var.labels.include = FALSE)
+
+tbl1 <- stargazer(models, header = FALSE, style = "aer", 
+          title = "Regression Discontinuity Estimates for the Effect 
+          of Exceeding BAC Thresholds on Predetermined Characteristics",
+          column.labels = c("Male", "White","Age", "Accident"),
+          covariate.labels = c("DUI"),
+          omit = c("Constant", "bac_centered", "bac_centered:over_limit"),
+          se = robust_se_list,
+          dep.var.caption = '',
+          dep.var.labels.include = FALSE)
 
 
 # recreate figure 2, panels A-D

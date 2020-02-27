@@ -108,7 +108,7 @@ dwi_accident_sum <- dwi %>%
     mean_acc = mean(acc),
     mean_aged = mean(aged),
     number_obs = n(),
-    over_limit = unique(as.numeric(over_limit))
+    over_limit = unique(over_limit)
   )
 
 dwi_accident_sum$bac1 <- as.numeric(as.character(dwi_accident_sum$bac_bucket))
