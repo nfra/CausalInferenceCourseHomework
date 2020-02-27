@@ -22,10 +22,14 @@ dwi = read.csv("./data/hansen_dwi.csv")
 
 
 
+
 # Replication
 
 ## Density of the Running Variable
 
+If people were capable of manipulating their blood alcohol content (BAC) with the precision required to full the breathalyzer, the histogram of BAC would swell to the left of the legal threshold and drop to the right of it. That distortion of the distribution would occur because of the negative legal consequences for being charged with driving while intoxicated.
+
+In the recreation of Hansen's BAC histogram below we do not see any evidence for sorting on the running variable. The characteristic density discontinuity is not present at BAC = 0.08, the black vertical line. 
 
 ```{r manipulation_histogram, echo=FALSE}
 # add new vars: 
@@ -50,13 +54,17 @@ manipulation_histogram <- ggplot(data = dwi) +
 manipulation_histogram
 ```
 
+# Covariates by the Running Variable
+
+
+
 ```{r results='asis', echo=FALSE}
 
 # run regressions of covariates on running variable
-lm_male_on_bac <- lm(male ~ bac1*over_limit, data=dwi)
-lm_white_on_bac <- lm(white ~ bac1*over_limit, data=dwi)
-lm_aged_on_bac <- lm(aged ~ bac1*over_limit, data=dwi)
-lm_acc_on_bac <- lm(acc ~ bac1*over_limit, data=dwi)
+lm_male_on_bac <- lm(male ~ I(bac1-0.08)*over_limit, data=dwi)
+lm_white_on_bac <- lm(white ~ I(bac1-0.08)*over_limit, data=dwi)
+lm_aged_on_bac <- lm(aged ~ I(bac1-0.08)*over_limit, data=dwi)
+lm_acc_on_bac <- lm(acc ~ I(bac1-0.08)*over_limit, data=dwi)
 
 models <- list(lm_male_on_bac, lm_white_on_bac, lm_aged_on_bac, lm_acc_on_bac)
 
@@ -83,7 +91,13 @@ tbl1 <- stargazer(models, header = FALSE, style = "aer",
 
 ```
 
-# Covariates by the Running Variable
+As shown in the table above, only age shows a significant discontinuity at the BAC threshold. 
+
+The figure below shows linear model fits. Panel C in the linear model plots illuminates the significant imbalance found for the linear regression of age on BAC presented in the table above. It seems to be an artifact of including high values of BAC, which biases the model; all the average BAC levels (represented by empty dots) within .02 percentage points of the legal BAC threshold lie above the linear fit.
+
+There are several differences between these plots and the corresponding plots presented in Hansen's paper. Obviously, the replication plots use only one threshold BAC level, rather than the two shown in the original. These influence our regression results by including data from farther away from the threshold than Hansen uses.
+ 
+Additionally, Panel B in the replication plot shows a positive slope below the 0.08 BAC threshold, unlike the negative slope in the original. Also, Panel C in the original has an age axis that ranges from 0.34 to 0.38, three orders of magnitude smaller than the ranges in the replication.
 
 ```{r figure2_rep, echo=FALSE}
 # recreate figure 2, panels A-D
@@ -176,6 +190,9 @@ panel_d <- ggplot(data = dwi,
 grid.arrange(panel_a, panel_b, panel_c, panel_d, nrow = 2)
 
 ```
+
+The bias introduced by the linear model for age above is fixed by using a quadratic model, presented in Panel C of the figure below. However, the quadratic model also introduces a potentially disqualifying amount of variance. For example, Panel B shows a questionable fit below the legal BAC threshold.
+
 
 ```{r figure2_rep_quad, echo=FALSE}
 # recreate figure 2, panels A-D, but with quadratic model
@@ -273,7 +290,7 @@ linear_interact <- lm(recidivism ~ 1 + male + white + aged + acc +
    data = dwi[dwi$bac1 >= 0.03 & dwi$bac1 <= 0.13,])
 
 quadratic_interact <- lm(recidivism ~ 1 + male + white + aged + acc + 
-                           bac1*over_limit + I(bac1^2)*over_limit,
+                            bac1*over_limit + I(bac1^2)*over_limit,
    data = dwi[dwi$bac1 >= 0.03 & dwi$bac1 <= 0.13,])
 
 # Make a list of the models from above for table

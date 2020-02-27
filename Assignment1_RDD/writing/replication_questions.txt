@@ -1,7 +1,27 @@
 Replication Questions:
 
-8. The first thing to do in any RDD is look at the raw data and see if there’s any evidence for manipulation.  If people were capable of manipulating their blood alcohol content (bac1), what would that look like?  And do we see that in these data?  Recreate Figure 1 using the bac1 variable as your measure of blood alcohol content.  Do you find evidence for sorting on the running variable?
+"8. The first thing to do in any RDD is look at the raw data and see if there’s any evidence for manipulation.  If people were capable of manipulating their blood alcohol content (bac1), what would that look like?  And do we see that in these data?  Recreate Figure 1 using the bac1 variable as your measure of blood alcohol content.  Do you find evidence for sorting on the running variable?"
+
 
 If people were capable of manipulating their blood alcohol content (BAC) with the precision required to full the breathalyzer, the histogram of BAC would swell to the left of the legal threshold and drop to the right of it. That distortion of the distribution would occur because of the negative legal consequences for being charged with driving while intoxicated.
 
-In Figure 1, the recreation of Hansen's BAC histogram, we do not see any evidence for sorting on the running variable. The characteristic density discontinuity is not present at BAC = 0.08, the black vertical line. 
+In Figure 1, the recreation of Hansen's BAC histogram, we do not see any evidence for sorting on the running variable. The characteristic density discontinuity is not present at BAC = 0.08, the black vertical line.
+
+
+"9. The second thing we need to do is check for covariate balance.  You will need to estimate equation (1) with white, male, age and accident (acc) as dependent variables.  Are the covariate balanced at the cutoff?"
+
+[table]
+
+As shown in the table above, only age shows a significant discontinuity at the BAC threshold. 
+
+The figure below shows linear model fits. Panel C in the linear model plots illuminates the significant imbalance found for the linear regression of age on BAC presented in the table above. It seems to be an artifact of including high values of BAC, which biases the model; all the average BAC levels (represented by empty dots) within .02 percentage points of the legal BAC threshold lie above the linear fit.
+
+[lin_fit]
+
+There are several differences between these plots and the corresponding plots presented in Hansen's paper. Obviously, the replication plots use only one threshold BAC level, rather than the two shown in the original. These influence our regression results by including data from farther away from the threshold than Hansen uses.
+ 
+Additionally, Panel B in the replication plot shows a positive slope below the 0.08 BAC threshold, unlike the negative slope in the original. Also, Panel C in the original has an age axis that ranges from 0.34 to 0.38, three orders of magnitude smaller than the ranges in the replication.
+
+[quad_fit]
+
+The bias introduced by the linear model for age is fixed by using a quadratic model, presented in Panel C of the figure below. However, the quadratic model also introduces a potentially disqualifying amount of variance. For example, Panel B shows a questionable fit below the legal BAC threshold.
