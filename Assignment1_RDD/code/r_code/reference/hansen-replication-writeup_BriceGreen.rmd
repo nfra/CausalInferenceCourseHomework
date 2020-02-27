@@ -1,0 +1,71 @@
+---
+title: 'Replication 1: Hansen AER 2013'
+author: "Brice Green"
+date: "2/23/2020"
+output: pdf_document
+bibliography: hw1.bib
+---
+
+# Summary
+
+The Hansen paper uses a regression discontinuity design to examine how different penalties relate to recidivism. Under a rational deterrence model of crime, we would expect harsher penalties to reduce crime. Because exact blood alcohol level is difficult for people to control, and BAC 0.08 is used as an arbitrary measure for punishing drunk driving, there is quasi-randomness at the threshold of 0.08 that allows us to identify the causal effect of harsher punishments for driving under the influence. The assumption that crime is a rational balancing between the costs and benefits of committing the offense goes back (at least) to @becker1968crime.
+
+Hansen uses all breathalyzer tests in the state of Washington as his sample. After several checks to make sure that the sharp regression discontinuity design is appropriate to the setting (namely McClary Density Tests and covariate balance tests), he estimates a local average treatment effect of punishment on recidivism, or the likelihood that someone who has been punished is likely to commit a future drunk driving offense. Because the boundary is difficult to manipulate--blood alcohol content is a function of a number of interacting factors like food consumption, body chemistry, and time--and the other attributes of people along the border of the threshold are fairly similar, he can identify the causal effect of the increased punishments for people above that border vs. people below it.
+
+He finds evidence that punishments for drunk driving offenses reduce recidivism. First, he finds that the local average treatment effect of the punishments on recividism (as measured by a drunk driving offense in the next 4 years by the same individual) are meaningful and statistically significant, on the order of 1-2% (depending on whether the individual is at the "aggravated" DUI threshold, >BAC 0.15, or the "regular" DUI threshold, >BAC 0.08). He then looks at the different punishment mechanisms, and how they vary at the BAC threshold. He finds that if a driver's license is suspended, there are longer term impacts on recidivism than just the window of suspension, that there are no obvious impacts of rehabilitation on other alcohol related crimes (e.g. domestic violence), and that there is a substantial "deterrence" elasticity, though not one as large as would be expected by Becker's model.
+
+# Replication Exercise
+
+## Density Checks
+
+If people were manipulation the boundary (denoted by the vertical line), we would expect to see a break in the density around that point with bunching on the left-hand side of the line. There is no substantial evidence of this.
+
+![Density tests at discontinuity](../Figures/hansen-figure1-bac-hist.png)
+
+## Covariate Balance
+
+We check for covariate balance along age, gender, accident frequency, and race frequency. The check is an OLS regression with an indicator variable for whether we have passed the continuity, and a different slope for how the covariate interacts with the running variable on either side of the threshold. I find significant differences in age on either side of the covariate.
+
+```{r results = 'asis', echo = F}
+
+cat(readLines("../Tables/covariate-balance-tests.tex"))
+
+```
+
+
+
+![Linear Covariate Balance](../Figures/lin_cov_balance_plots.png)
+
+![Quadratic Covariate Balance](../Figures/quad_cov_balance_plots.png)
+
+The linear fit corresponds to our regression outcomes, with the exception that Hansen's paper excludes measurements in the plot above 0.2 BAC. This does help us zoom in on the precise discontinuity at 0, but it will change the standard errors of our results. All in all, they match the regression output.
+
+The quadratic fit has some statistical oddities that make me slightly skeptical of the polynomial fit, but we don't see any obvious differences in the covariates at the discontinuity.
+
+## Regression Discontinuity Tables
+
+```{r results = 'asis', echo = F}
+
+cat(readLines("../Tables/rd-panel-a.tex"))
+
+```
+
+```{r results = 'asis', echo = F}
+
+cat(readLines("../Tables/rd-panel-b.tex"))
+
+```
+
+## Regression Discontinuity Graph
+
+![Linear Regression Discontinuity](../Figures/linear_rd_plot.png)
+
+![Quadratic Regression Discontinuity](../Figures/quad_rd_plot.png)
+
+# References
+
+
+
+
+
+
