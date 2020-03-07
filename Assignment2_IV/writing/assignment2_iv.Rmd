@@ -1,0 +1,12 @@
+---
+title: 'Assignment 2: Angrist & Evans AER 1998'
+author: "Nathan Franz"
+date: "3/7/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Summary of Angrist's and Evans' Project
