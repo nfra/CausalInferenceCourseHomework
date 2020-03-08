@@ -25,7 +25,7 @@ pums80 <- as.data.table(read_dta('data/pums80.dta'))
 
 ## Replicated Tables
 
-```{r results='asis', echo=FALSE}
+```{r table1, results='asis', echo=FALSE}
 # make a table of fertility and labor supply measures of the women
 
 pums80_3pluskids <- pums80[pums80$kidcount > 2,]
@@ -55,7 +55,28 @@ stargazer(
 )
 ```
 
-```{r results='asis', echo=FALSE}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r table2, results='asis', echo=FALSE}
 
 # make a table of descriptive statistics of the women
 
@@ -67,62 +88,90 @@ pums80$twogirls <- as.numeric(eval(pums80$boy1st + pums80$boy2nd == 0))
 
 
 row_names_column_2 <- c('Children ever born',
-                      '',
-                      'More than 2 children',
-                      '        ',
-                      'Boy 1st',
-                      '  ',
-                      'Boy 2nd',
-                      '   ',
-                      'Two boys',
-                      '    ',
-                      'Two girls',
-                      '     ',
-                      'Same sex',
-                      '      ',
-                      'Twins-2',
-                      '       ',
-                      'Age',
                       ' ',
-                      'Age at first birth',
+                      '  ',
+                      'More than 2 children',
+                      '   ',
+                      '    ',
+                      'Boy 1st',
+                      '     ',
+                      '      ',
+                      'Boy 2nd',
+                      '       ',
+                      '        ',
+                      'Two boys',
                       '         ',
-                      'Worked for pay',
                       '          ',
-                      'Weeks worked',
+                      'Two girls',
                       '           ',
-                      'Hours/week',
                       '            ',
-                      'Labor income',
+                      'Same sex',
                       '             ',
+                      '              ',
+                      'Twins-2',
+                      '               ',
+                      '                ',
+                      'Age',
+                      '                 ',
+                      '                  ',
+                      'Age at first birth',
+                      '                   ',
+                      '                    ',
+                      'Worked for pay',
+                      '                     ',
+                      '                      ',
+                      'Weeks worked',
+                      '                       ',
+                      '                        ',
+                      'Hours/week',
+                      '                         ',
+                      '                          ',
+                      'Labor income',
+                      '                           ',
+                      '                            ',
                       'Number of observations')
 values_column_2 <- c(round(mean(pums80$kidcount), 2),
                    paste('(', round(sd(pums80$kidcount), 3), ')', sep=''),
+                   '',
                    round(mean(pums80$threepluskids), 3),
                    paste('(', round(sd(pums80$threepluskids), 3), ')', sep=''),
+                   '',
                    round(mean(pums80$boy1st), 3),
                    paste('(', round(sd(pums80$boy1st), 3), ')', sep=''),
+                   '',
                    round(mean(pums80$boy2nd), 3),
                    paste('(', round(sd(pums80$boy2nd), 3), ')', sep=''),
+                   '',
                    round(mean(pums80$twoboys), 3),
                    paste('(', round(sd(pums80$twoboys), 3), ')', sep=''),
+                   '',
                    round(mean(pums80$twogirls), 3),
                    paste('(', round(sd(pums80$twogirls), 3), ')', sep=''),
+                   '',
                    round(mean(pums80$samesex), 3),
                    paste('(', round(sd(pums80$samesex), 3), ')', sep=''),
-                   round(mean(pums80$multi2nd), 3),
-                   paste('(', round(sd(pums80$multi2nd), 3), ')', sep=''), 
-                   round(mean(pums80$agem1), 3),
-                   paste('(', round(sd(pums80$agem1), 3), ')', sep=''), 
-                   round(mean(pums80$agefstm), 3),
-                   paste('(', round(sd(pums80$agefstm), 3), ')', sep=''), 
+                   '',
+                   round(mean(pums80$multi2nd), 4),
+                   paste('(', round(sd(pums80$multi2nd), 4), ')', sep=''),
+                   '',
+                   round(mean(pums80$agem1), 1),
+                   paste('(', round(sd(pums80$agem1), 1), ')', sep=''), 
+                   '',
+                   round(mean(pums80$agefstm), 1),
+                   paste('(', round(sd(pums80$agefstm), 1), ')', sep=''),
+                   '',
                    round(mean(pums80$workedm), 3),
                    paste('(', round(sd(pums80$workedm), 3), ')', sep=''), 
-                   round(mean(pums80$weeksm1), 3),
-                   paste('(', round(sd(pums80$weeksm1), 3), ')', sep=''), 
-                   round(mean(pums80$hourswm), 3),
-                   paste('(', round(sd(pums80$hourswm), 3), ')', sep=''),
-                   round(mean(pums80$incomem), 3),
-                   paste('(', round(sd(pums80$incomem), 3), ')', sep=''),
+                   '',
+                   round(mean(pums80$weeksm1), 1),
+                   paste('(', round(sd(pums80$weeksm1), 1), ')', sep=''),
+                   '',
+                   round(mean(pums80$hourswm), 1),
+                   paste('(', round(sd(pums80$hourswm), 1), ')', sep=''),
+                   '',
+                   round(mean(pums80$incomem), 0),
+                   paste('(', round(sd(pums80$incomem), 0), ')', sep=''),
+                   '',
                    nrow(pums80)
                   )
 
@@ -140,5 +189,11 @@ stargazer(
 )
 
 ```
+
+
+
+
+
+
 
 ## Discussion
