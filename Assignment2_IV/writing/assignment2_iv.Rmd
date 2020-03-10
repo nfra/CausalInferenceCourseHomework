@@ -1,7 +1,7 @@
 ---
 title: 'Assignment 2: Angrist & Evans AER 1998'
 author: "Nathan Franz"
-date: "3/7/2020"
+date: "3/10/2020"
 output: pdf_document
 ---
 
@@ -10,38 +10,51 @@ output: pdf_document
 library(data.table)
 library(stargazer)
 library(haven)
+library(AER)
+library(ivpack)
+library(estimatr)
 
 setwd('~/UT Courses/3. Spring 2019/Causal Inference/CausalInferenceCourseHomework/Assignment2_IV')
 pums80 <- as.data.table(read_dta('data/pums80.dta'))
 ```
 
 
-
-
-
 # Summary of Angrist's and Evans' Project
 
-# Replication
 
-## Replicated Tables
+
+Angrist and Evans investigate to what extent having an extra child influences parents' labor-market outcomes, using the 5-percent samples from 1980 and 1990 Census Public Use Micro Samples (PUMS). Their investigation is motivated by the clear existence of a relationship between fertility and labor-supply and by its unclear nature. A causal estimate for this question is hard, because the two characteristics are jointly determined.
+
+They use an instrumental variable design taking advantage of the American parental preference for children of both sexes. They estimate the local average treatment effect (LATE) of having an extra child on six parental outcomes:
+
+1. whether the mother (or husband of a married woman) worked for pay in the year prior to the survey year, 
+2. how many weeks she (or he) worked in that year, 
+3. how many hours she (or he) worked per week in that year, 
+4. her (or his) labor income that year, 
+5. the natural log of the family's total income that year, and
+6. for married women, the natural log of the non-wife income.
+
+They find that having an extra child reduces those parental labor-market outcomes, but not as much as a naive reading of the OLS estimate would suggest.
+
+# Replicated Tables
 
 ```{r table1, results='asis', echo=FALSE}
 # make a table of fertility and labor supply measures of the women
 
-pums80_3pluskids <- pums80[pums80$kidcount > 2,]
+# add necessary variables
+pums80$threepluskids <- as.numeric(eval(pums80$kidcount >= 3))
 
-
+# create vectors for each column of the table
 row_names_column_1 <- c('Mean children ever born',
                       'Percent with more than 2 children',
                       'Percent worked last year',
                       'Observations')
 values_column_1 <- c(round(mean(pums80$kidcount), 2),
-                   round(nrow(pums80_3pluskids)/nrow(pums80)*100, 2),
+                   round(mean(pums80$threepluskids)*100, 2),
                    round(sum(pums80$workedm)/nrow(pums80)*100, 2),
-                   nrow(pums80)
-                  )
+                   nrow(pums80))
 
-characteristics_table_1 <- data.frame('PUMS 1980' = values_column_1)
+characteristics_table_1 <- data.frame(values_column_1)
 row.names(characteristics_table_1) <- row_names_column_1
 
 stargazer(
@@ -51,28 +64,9 @@ stargazer(
   style = 'AER',
   title = 'Fertility and Labor-Supply Measures, 1980 PUMS Data',
   covariate.labels = c('Married women aged 21–35 with 2 or more children', ''),
-  notes = c('Notes: This data includes women with two or more children', 'except for women whose second birth was less than a year old', 'at the time of survey.')
+  notes = c('Notes: This sample includes women with two or more children', 'except for women whose second birth was less than a year old', 'at the time of survey.')
 )
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -80,54 +74,52 @@ stargazer(
 
 # make a table of descriptive statistics of the women
 
-pums80$threepluskids <- as.numeric(eval(pums80$kidcount >= 3))
+# add necessary variables
 pums80$twoboys <- as.numeric(eval(pums80$boy1st + pums80$boy2nd == 2))
 pums80$twogirls <- as.numeric(eval(pums80$boy1st + pums80$boy2nd == 0))
 
-
-
-
+# create vectors for each column of the table
 row_names_column_2 <- c('Children ever born',
                       ' ',
                       '  ',
                       'More than 2 children',
-                      '   ',
+                      '(=1 if mother had 3+ children, =0 otherwise)',
                       '    ',
                       'Boy 1st',
-                      '     ',
+                      '(=1 if first child was a boy)',
                       '      ',
                       'Boy 2nd',
-                      '       ',
+                      '(=1 if second child was a boy)',
                       '        ',
                       'Two boys',
-                      '         ',
+                      '(=1 if first two children were boys)',
                       '          ',
                       'Two girls',
-                      '           ',
+                      '(=1 if first two children were girls)',
                       '            ',
                       'Same sex',
-                      '             ',
+                      '(=1 if first two children were the same sex)',
                       '              ',
                       'Twins-2',
-                      '               ',
+                      '(=1 if second birth was a twin)',
                       '                ',
                       'Age',
                       '                 ',
                       '                  ',
                       'Age at first birth',
-                      '                   ',
+                      "(parent's age in years when first child was born)",
                       '                    ',
                       'Worked for pay',
-                      '                     ',
+                      '(=1 if worked for pay in year prior to census',
                       '                      ',
                       'Weeks worked',
-                      '                       ',
+                      '(weeks worked in year prior to census)',
                       '                        ',
                       'Hours/week',
-                      '                         ',
+                      '(average hours worked per week)',
                       '                          ',
                       'Labor income',
-                      '                           ',
+                      '(labor earnings in year prior to census, in 1995 dollars)',
                       '                            ',
                       'Number of observations')
 values_column_2 <- c(round(mean(pums80$kidcount), 2),
@@ -175,9 +167,11 @@ values_column_2 <- c(round(mean(pums80$kidcount), 2),
                    nrow(pums80)
                   )
 
+# create the data frame to feed to stargazer
 characteristics_table_2 <- data.frame('PUMS 1980' = values_column_2)
 row.names(characteristics_table_2) <- row_names_column_2
 
+# create the Latex table
 stargazer(
   characteristics_table_2, 
   header = FALSE,
@@ -185,15 +179,39 @@ stargazer(
   style = 'AER',
   title = 'Descriptive Statistics, 1980 PUMS Data',
   covariate.labels = c('Married women aged 21–35 with 2 or more children', 'Mean (Standard Deviation)'),
-  notes = c('Notes: This data includes women with two or more children except for women',  'whose second birth was less than a year old when surveyed.')
+  notes = c('Notes: This sample includes women with two or more children except for women',  'whose second birth was less than a year old when surveyed.')
 )
 
 ```
 
+\pagebreak
+
+this page intentionally left blank
+
+\pagebreak
+
+# Discussion
+
+## Results
+
+Using two-stage least-squares (2SLS), I found that among married women aged 21-35, an extra child reduces
+
+* rate of paid work by 14 percentage points,
+* number of weeks worked per year by 6.3 hours,
+* hours worked per week by 5.5 weeks, and
+* mother's labor income by $1700 (in 1995 dollars).
+
+OLS estimates of each of those effects maintain the same sign, but they underestimate the first three effects and overestimate the final effect. This result diverges from what Angrist and Evans found in their paper, likely because these regressions were run without the race and age controls from the original paper.
+
+The manual two-stage least-squares (M2SLS) regressions, presented in the third column of each outcome block, found the same estimates as the automated 2SLS but greater standard errors in each case. The covariate adjusted instrumental variable (CIV) regressions, presented in the second column of each column block, also found the same estimates as 2SLS.
+
+
+## OLS Bias and Inconsistency
+
+OLS is biased and inconsistent in this case, because there is undeniable simultaneity and omitted variable bias. People determine fertility and labor-market participation jointly.
+
+Assuming that the instrument is relevant and exogenous, 2SLS avoids the bias and inconsistency from above by using only the exogenous variation in the regressor due to the instrumental variable itself. I can confirm that the instrument is relevant by simply seeing that the covariance of the instrument and the outcome is nonzero, but the instrument exogeneity remains impossible to test with just one instrument.
 
 
 
 
-
-
-## Discussion

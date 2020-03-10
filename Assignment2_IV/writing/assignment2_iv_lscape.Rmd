@@ -1,0 +1,147 @@
+---
+title: "Untitled"
+author: "Nathan Franz"
+date: "3/10/2020"
+output: pdf_document
+classoption: landscape
+---
+
+```{r setup, include=FALSE}
+library(data.table)
+library(stargazer)
+library(haven)
+library(AER)
+library(ivpack)
+library(estimatr)
+
+setwd('~/UT Courses/3. Spring 2019/Causal Inference/CausalInferenceCourseHomework/Assignment2_IV')
+pums80 <- as.data.table(read_dta('data/pums80.dta'))
+
+pums80$threepluskids <- as.numeric(eval(pums80$kidcount >= 3))
+```
+```{r table1, results='asis', echo=FALSE, warning=F}
+stargazer(data.frame(space1 = c(0,0), space2 = c(0,0)))
+```
+```{r table2, results='asis', echo=FALSE, warning=F}
+stargazer(data.frame(space1 = c(0,0), space2 = c(0,0)))
+```
+
+\newpage
+
+this page intentionally left blank
+
+\newpage
+
+```{r table3, results='asis', echo=FALSE, warning=F}
+
+pums80_2ndstage <- as.data.table(pums80[,list(samesex, 
+                                              workedm, 
+                                              weeksm1, 
+                                              hourswm, 
+                                              incomem)
+                                        ]
+                                 )
+
+# run regressions with workedm as outcome
+workedm_ols <- lm(workedm ~ threepluskids, data=pums80)
+workedm_red <- lm(workedm ~ samesex, data=pums80)
+firststage <- lm(threepluskids ~ samesex, data=pums80)
+pums80_2ndstage$threepluskids <- predict(firststage)
+workedm_2ndstage <- lm(workedm ~ threepluskids, data=pums80_2ndstage)
+workedm_iv <- ivreg(workedm ~ threepluskids | samesex, data=pums80)
+
+# run regressions with weeksm1 as outcome
+weeksm1_ols <- lm(weeksm1 ~ threepluskids, data=pums80)
+weeksm1_red <- lm(weeksm1 ~ samesex, data=pums80)
+weeksm1_2ndstage <- lm(weeksm1 ~ threepluskids, data=pums80_2ndstage)
+weeksm1_iv <- ivreg(weeksm1 ~ threepluskids | samesex, data=pums80)
+
+
+models = list(workedm_ols, workedm_iv, workedm_2ndstage, workedm_iv,
+              weeksm1_ols, weeksm1_iv, weeksm1_2ndstage, weeksm1_iv)
+models_se = starprep(workedm_ols, workedm_iv, workedm_2ndstage, workedm_iv,
+                     weeksm1_ols, weeksm1_iv, weeksm1_2ndstage, weeksm1_iv, 
+                     se_type = 'HC1')
+models_se[2] = c(0,0,0)
+models_se[6] = c(0,0,0)
+models_coef = list(NULL,
+                   c(0, as.numeric(workedm_red$coefficients['samesex']
+                                   /firststage$coefficients['samesex'])),
+                   NULL,
+                   NULL,
+                   NULL,
+                   c(0, as.numeric(weeksm1_red$coefficients['samesex']
+                                   /firststage$coefficients['samesex'])),
+                   NULL,
+                   NULL
+                   )
+
+
+stargazer(models,
+          header = FALSE,
+          style = 'AER',
+          title = 'OLS and 2SLS Regressions, 1980 PUMS Data',
+          omit = 'Constant',
+          coef = models_coef,
+          se = models_se,
+          omit.stat = c('ser', 'adj.rsq'),
+          column.labels = c('OLS', 'CIV', 'M2SLS', '2SLS', 
+                            'OLS', 'CIV', 'M2SLS', '2SLS'),
+          model.names = F,
+          dep.var.labels = c('Worked in past year', 'Weeks worked in past year'),
+          covariate.labels = c('More than 2 kids'),
+          font.size = 'normalsize'
+)
+```
+
+```{r table4, results='asis', echo=FALSE, warning=F}
+
+# run regressions with hourswn as outcome
+hourswm_ols <- lm(hourswm ~ threepluskids, data=pums80)
+hourswm_red <- lm(hourswm ~ samesex, data=pums80)
+hourswm_2ndstage <- lm(hourswm ~ threepluskids, data=pums80_2ndstage)
+hourswm_iv <- ivreg(hourswm ~ threepluskids | samesex, data=pums80)
+
+# run regressions with incomem as outcome
+incomem_ols <- lm(incomem ~ threepluskids, data=pums80)
+incomem_red <- lm(incomem ~ samesex, data=pums80)
+incomem_2ndstage <- lm(incomem ~ threepluskids, data=pums80_2ndstage)
+incomem_iv <- ivreg(incomem ~ threepluskids | samesex, data=pums80)
+
+
+models = list(hourswm_ols, hourswm_iv, hourswm_2ndstage, hourswm_iv,
+              incomem_ols, incomem_iv, incomem_2ndstage, incomem_iv)
+models_se = starprep(hourswm_ols, hourswm_iv, hourswm_2ndstage, hourswm_iv,
+                     incomem_ols, incomem_iv, incomem_2ndstage, incomem_iv,
+                     se_type = 'HC1')
+models_se[2] = c(0,0)
+models_se[6] = c(0,0)
+models_coef = list(NULL,
+                   c(0, as.numeric(hourswm_red$coefficients['samesex']
+                                   /firststage$coefficients['samesex'])),
+                   NULL,
+                   NULL,
+                   NULL,
+                   c(0, as.numeric(incomem_red$coefficients['samesex']
+                                   /firststage$coefficients['samesex'])),
+                   NULL,
+                   NULL
+                   )
+
+
+stargazer(models,
+          header = FALSE,
+          style = 'AER',
+          title = 'OLS and 2SLS Regressions, 1980 PUMS Data',
+          omit = 'Constant',
+          coef = models_coef,
+          se = models_se,
+          omit.stat = c('ser', 'adj.rsq'),
+          column.labels = c('OLS', 'CIV', 'M2SLS', '2SLS', 
+                            'OLS', 'CIV', 'M2SLS', '2SLS'),
+          model.names = F,
+          dep.var.labels = c('Hours worked per week', "Mother's labor income per week"),
+          covariate.labels = c('More than 2 kids'),
+          font.size = 'normalsize'
+)
+```
