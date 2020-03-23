@@ -46,6 +46,9 @@ pums80_2ndstage <- as.data.table(pums80[,list(samesex,
 workedm_ols <- lm(workedm ~ threepluskids, data=pums80)
 workedm_red <- lm(workedm ~ samesex, data=pums80)
 firststage <- lm(threepluskids ~ samesex, data=pums80)
+firststage_coef <- as.numeric(firststage$coefficients['samesex'])
+firststage_se <- paste('(', round(summary(firststage)$coef['samesex',2], 4), ')', sep='')
+
 pums80_2ndstage$threepluskids <- predict(firststage)
 workedm_2ndstage <- lm(workedm ~ threepluskids, data=pums80_2ndstage)
 workedm_iv <- ivreg(workedm ~ threepluskids | samesex, data=pums80)
@@ -66,12 +69,12 @@ models_se[2] = c(0,0,0)
 models_se[6] = c(0,0,0)
 models_coef = list(NULL,
                    c(0, as.numeric(workedm_red$coefficients['samesex']
-                                   /firststage$coefficients['samesex'])),
+                                   /firststage_coef)),
                    NULL,
                    NULL,
                    NULL,
                    c(0, as.numeric(weeksm1_red$coefficients['samesex']
-                                   /firststage$coefficients['samesex'])),
+                                   /firststage_coef)),
                    NULL,
                    NULL
                    )
@@ -80,15 +83,17 @@ models_coef = list(NULL,
 stargazer(models,
           header = FALSE,
           style = 'AER',
-          title = 'OLS and 2SLS Regressions, 1980 PUMS Data',
+          title = 'OLS and 2SLS Regressions of Whether Worked in Past Year and Weeks Worked in Past Year, 1980 PUMS Data',
           omit = 'Constant',
           coef = models_coef,
           se = models_se,
-          omit.stat = c('ser', 'adj.rsq'),
+          keep.stat = c('n'),
           column.labels = c('OLS', 'CIV', 'M2SLS', '2SLS', 
                             'OLS', 'CIV', 'M2SLS', '2SLS'),
           model.names = F,
           dep.var.labels = c('Worked in past year', 'Weeks worked in past year'),
+          add.lines = list(c('First stage instrument', '', '', round(firststage_coef, 4), '', '', '', round(firststage_coef, 4), '', ''),
+                           c('', '', '', firststage_se, '', '', '', firststage_se, '', '')),
           covariate.labels = c('More than 2 kids'),
           font.size = 'normalsize'
 )
@@ -118,12 +123,12 @@ models_se[2] = c(0,0)
 models_se[6] = c(0,0)
 models_coef = list(NULL,
                    c(0, as.numeric(hourswm_red$coefficients['samesex']
-                                   /firststage$coefficients['samesex'])),
+                                   /firststage_coef)),
                    NULL,
                    NULL,
                    NULL,
                    c(0, as.numeric(incomem_red$coefficients['samesex']
-                                   /firststage$coefficients['samesex'])),
+                                   /firststage_coef)),
                    NULL,
                    NULL
                    )
@@ -132,15 +137,17 @@ models_coef = list(NULL,
 stargazer(models,
           header = FALSE,
           style = 'AER',
-          title = 'OLS and 2SLS Regressions, 1980 PUMS Data',
+          title = "OLS and 2SLS Regressions of Hours Worked Per Week and Mother's Labor Income Per Week, 1980 PUMS Data",
           omit = 'Constant',
           coef = models_coef,
           se = models_se,
-          omit.stat = c('ser', 'adj.rsq'),
+          keep.stat = c('n'),
           column.labels = c('OLS', 'CIV', 'M2SLS', '2SLS', 
                             'OLS', 'CIV', 'M2SLS', '2SLS'),
           model.names = F,
           dep.var.labels = c('Hours worked per week', "Mother's labor income per week"),
+          add.lines = list(c('First stage instrument', '', '', round(firststage_coef, 4), '', '', '', round(firststage_coef, 4), '', ''),
+                           c('', '', '', firststage_se, '', '', '', firststage_se, '', '')),
           covariate.labels = c('More than 2 kids'),
           font.size = 'normalsize'
 )

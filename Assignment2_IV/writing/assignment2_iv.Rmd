@@ -23,9 +23,9 @@ pums80 <- as.data.table(read_dta('data/pums80.dta'))
 
 
 
-Angrist and Evans investigate to what extent having an extra child influences parents' labor-market outcomes, using the 5-percent samples from 1980 and 1990 Census Public Use Micro Samples (PUMS). Their investigation is motivated by the clear existence of a relationship between fertility and labor-supply and by its unclear nature. A causal estimate for this question is hard, because the two characteristics are jointly determined.
+Angrist and Evans investigate to what extent having an extra child influences parents' labor-market outcomes, using the 5-percent samples from 1980 and 1990 Census Public Use Micro Samples (PUMS). Their investigation is motivated by the clear existence of a relationship between fertility and labor-supply and by its unclear nature. Finding a causal estimate for this relationship is hard, because the two characteristics are jointly determined.
 
-They use an instrumental variable design taking advantage of the American parental preference for children of both sexes. They estimate the local average treatment effect (LATE) of having an extra child on six parental outcomes:
+They use an instrumental variable design taking advantage of the American parental preference for having children of both sexes. They estimate the local average treatment effect (LATE) of having an extra child on six parental outcomes:
 
 1. whether the mother (or husband of a married woman) worked for pay in the year prior to the survey year, 
 2. how many weeks she (or he) worked in that year, 

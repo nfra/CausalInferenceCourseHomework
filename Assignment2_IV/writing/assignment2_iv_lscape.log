@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.8.6)  9 MAR 2020 22:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.8.6)  11 MAR 2020 22:44
 entering extended mode
 **./assignment2_iv_lscape.tex
 (assignment2_iv_lscape.tex
@@ -768,10 +768,6 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 [1
 
 {C:/Users/Nathan/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
-Overfull \hbox (17.40416pt too wide) in paragraph at lines 150--168
- [][] 
- []
-
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 170.
 [3]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 170.
@@ -785,25 +781,23 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  12941 strings out of 492895
  191671 string characters out of 3123269
- 307010 words of memory out of 3000000
+ 307070 words of memory out of 3000000
  16645 multiletter control sequences out of 15000+200000
  43154 words of font info for 63 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  35i,10n,38p,822b,337s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.e
-nc}{C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.
-enc}{C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ma
-thsy.enc}<C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/
-lm/lmr10.pfb><C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
-lic/lm/lmr12.pfb><C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
-/public/lm/lmr17.pfb><C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fonts/t
-ype1/public/lm/lmr7.pfb><C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/font
-s/type1/public/lm/lmri10.pfb><C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9
-/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Nathan/AppData/Local/Programs/MiKTe
-X 2.9/fonts/type1/public/lm/lmsy7.pfb>
-Output written on assignment2_iv_lscape.pdf (3 pages, 118140 bytes).
+nc}{C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mat
+hsy.enc}<C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/l
+m/lmr10.pfb><C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publ
+ic/lm/lmr12.pfb><C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
+public/lm/lmr17.pfb><C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
+pe1/public/lm/lmri10.pfb><C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fon
+ts/type1/public/lm/lmsy10.pfb><C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.
+9/fonts/type1/public/lm/lmsy7.pfb>
+Output written on assignment2_iv_lscape.pdf (3 pages, 103264 bytes).
 PDF statistics:
- 56 PDF objects out of 1000 (max. 8388607)
+ 51 PDF objects out of 1000 (max. 8388607)
  8 named destinations out of 1000 (max. 500000)
  12289 words of extra memory for PDF output out of 14400 (max. 10000000)
 

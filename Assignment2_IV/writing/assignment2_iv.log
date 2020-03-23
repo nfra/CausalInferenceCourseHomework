@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.8.6)  9 MAR 2020 22:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.8.6)  11 MAR 2020 22:36
 entering extended mode
 **./assignment2_iv.tex
 (assignment2_iv.tex
@@ -778,11 +778,11 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 13013 strings out of 492895
- 192989 string characters out of 3123269
+ 13015 strings out of 492895
+ 193011 string characters out of 3123269
  307463 words of memory out of 3000000
  16688 multiletter control sequences out of 15000+200000
- 48572 words of font info for 71 fonts, out of 3000000 for 9000
+ 48655 words of font info for 72 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  35i,9n,38p,815b,356s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ts1.
@@ -795,7 +795,7 @@ public/lm/lmmi10.pfb><C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fonts/t
 ype1/public/lm/lmr10.pfb><C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9/fon
 ts/type1/public/lm/lmr12.pfb><C:/Users/Nathan/AppData/Local/Programs/MiKTeX 2.9
 /fonts/type1/public/lm/lmr17.pfb>
-Output written on assignment2_iv.pdf (4 pages, 125104 bytes).
+Output written on assignment2_iv.pdf (4 pages, 125110 bytes).
 PDF statistics:
  89 PDF objects out of 1000 (max. 8388607)
  23 named destinations out of 1000 (max. 500000)
