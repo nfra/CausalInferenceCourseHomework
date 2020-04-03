@@ -3,6 +3,10 @@ title: "A Quick and Incomplete County-Level Lithium Plot"
 output: html_document
 ---
 
+## Quick & Dirty Plot
+
+Source of data for these plots available [here](https://psycheducation.org/treatment/mood-stabilizers/the-big-three-for-bipolar-depression/lithium/how-much-lithium-in-my-water/).
+
 Note that these plots are top-coded. The average for counties reporting 100 mcg/L actually extend up to ~650 mcg/L.
 
 ```{r setup, include=FALSE}
@@ -30,12 +34,18 @@ lithium_data %>%
   labs(fill = "Groundwater Lithium Levels")
 ```
 
+
 ```{r lithium_interactive, echo=FALSE, warning=FALSE, fig.width = 16, fig.height = 9}
 ggplotly(
-  lithium_data %>%
+lithium_data %>%
   ggplot(aes(long, lat, group = group, fill = mean.lithiumlevel)) +
   geom_polygon(color = NA) +
   coord_map(projection = "albers", lat0 = 39, lat1 = 45) +
   labs(fill = "Groundwater Lithium Levels")
 )
 ```
+
+## Plan for Slow and Painful Plots
+
+![Screenshot of water data](../figures/lithium_obs_1995_to_pres.png)
+
