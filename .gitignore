@@ -2,3 +2,8 @@
 *.zip
 ResearchProject/.Rhistory
 *.gz
+ResearchProject/data/lithium_water_data/activityall.csv
+ResearchProject/data/lithium_water_data/project.csv
+ResearchProject/data/lithium_water_data/resdetectqntlmt.csv
+ResearchProject/data/lithium_water_data/result.csv
+ResearchProject/data/lithium_water_data/station.csv
