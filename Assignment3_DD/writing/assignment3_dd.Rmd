@@ -1,0 +1,184 @@
+---
+title: "Assignment 3: Stevenson & Wolfers QJE 2006"
+author: "Nathan Franz"
+date: "4/20/2020"
+output: pdf_document
+---
+
+# Summary and Discussion of Stevenson's and Wolfer's Project
+
+Stevenson and Wolfers investigate the extent to which the passage of laws that increase access to divorce affects the rates of domestic violence, suicide, and spousal homicide.
+
+> b.	What is their research design?
+
+They use a difference-in-differences research design.
+
+> c.	What data do they use?
+> d.	What is the key figure they present to illustrate their main findings in your opinion?
+> e.	Briefly summarize what they found in 1-2 sentences.
+> f.	Did you find the analysis convincing? If so, what specific evidence was compelling? If not, what was missing that had they done it would’ve potentially been more convincing?
+
+> 2.	What is no fault divorce and why do Stevenson and Wolfers think it’s relevant to suicide and homicide?  Briefly explain their theory and what it has to do with the Coase theorem.
+
+> 3.	Write down and explain their estimation equation.  Explain what each variable means, what each coefficient means, what each summation sign means, what each subscript means, what the epsilon means.  What is the main parameter of interest?
+
+Their estimation equation for space- and time-specific suicide rate is
+$$ Suicide \, rate_{s,t} = {\sum_{k} \beta_k Unilateral_{s,t}^k} + 
+                           {\sum_s \eta_s State_s} +
+                           {\sum_t \lambda_t Year_t} +
+                           {Controls_{s,t} + \varepsilon_{s,t}},$$  
+where $\beta_k$ is the change in the suicide rate due to the passage of a unilateral divorce law $k$ years ago, $\eta_s$ is the partial effect of living in state $s$ on suicide rates holding all else fixed, $\lambda_t$ is the partial effect of living in year $t$ on suicide rates holding all else fixed, the first summation sign captures the 
+
+\newpage
+
+# Table of States and Treatment Dates
+
+```{r load_packages, include = FALSE}
+library(tidyverse)
+library(haven)
+library(stargazer)
+library(knitr)
+library(lfe)
+library(gridExtra)
+library(data.table)
+```
+
+```
+# load packages
+library(tidyverse)
+library(haven)
+library(stargazer)
+library(knitr)
+library(lfe)
+library(gridExtra)
+library(data.table)
+```
+
+```{r load_data}
+# read data
+divorce_all <- as.data.table(read_dta("../data/sw_nofault_divorce.dta"))
+
+# drop data not needed for the analysis
+divorce <- divorce_all[,1:40]
+divorce$region <- divorce_all$region
+```
+
+We can see from the table below that five states had not passed no-fault divorce laws by 2006, coded as "NRS": Arkansas, Delaware, Mississippi, New York, and Tennessee. Nine states had passed no-fault divorce laws before 1964, coded as "PRE".
+
+```{r results='asis'}
+# create state, year table
+state_timing <- divorce %>%
+  group_by(statename) %>%
+  summarize(nfd = min(nfd))
+
+state_timing_table = state_timing[1:25,]
+state_timing_table[,3:4] = state_timing[26:50,]
+state_timing_table[25,3:4] = ''
+
+kable(state_timing_table, col.names = c('State (Column 1)', 'Year', 
+                                        'State (Column 2)', 'Year'))
+```
+
+\newpage
+
+# Replication
+
+```{r regressions, warning=FALSE}
+# create post var
+divorce$post = 0
+divorce[year >= `_nfd`,]$post = 1
+
+# run regressions without trend
+homicide_fe_reg = felm(asmrh ~ post | 
+                         statename + year | 
+                         0 | 
+                         statename, 
+                       data = divorce)
+suicide_fe_reg = felm(asmrs ~ post | 
+                        statename + year | 
+                        0 | 
+                        statename, 
+                      data = divorce)
+
+# create trend var
+divorce$trend = divorce$year - 1963
+
+# run regressions with trend
+homicide_fe_trend_reg = felm(asmrh ~ post | 
+                               as.factor(statename):trend + statename + year | 
+                               0 | 
+                               statename, 
+                             data = divorce)
+suicide_fe_trend_reg = felm(asmrs ~ post | 
+                              as.factor(statename):trend + statename + year | 
+                              0 | 
+                              statename, 
+                            data = divorce)
+
+```
+
+```{r results='asis'}
+# create regression table
+stargazer(homicide_fe_reg, 
+          homicide_fe_trend_reg, 
+          suicide_fe_reg, 
+          suicide_fe_trend_reg,
+          header = FALSE,
+          title = "Simple DD Estimates of Effect of Unilateral Divorce on 
+          Female ASMR Due to Homicide and Suicide",
+          dep.var.labels = c("Homicide", "Suicide"),
+          covariate.labels = c("Post-Treatment"),
+          add.lines = list(c('State and Year FEs', 'X', 'X', 'X', 'X'), 
+                           c('State-Specific Trends', ' ', 'X', ' ', 'X')),
+          keep.stat = c('n'),
+          notes = "Standard errors are clustered by state."
+          )
+```
+
+> 9.	What is the identifying assumption needed to estimate the variance weighted ATT when there is differential timing and using OLS?  
+
+
+```{r coefficient_plots, warning=FALSE}
+# event study
+
+# run regressions with year-distance from treatment
+homicide_fe_leadlag_reg = felm(asmrh ~ as.factor(I(year - `_nfd`)) | 
+                                 statename + year | 0 | statename, 
+                               data = divorce)
+suicide_fe_leadlag_reg = felm(asmrs ~ as.factor(I(year - `_nfd`)) | 
+                                statename + year | 0 | statename, 
+                              data = divorce)
+
+# create data for coefficient plot
+leadlag_data <- as.data.frame(
+  tibble(
+    label = -20:27, 
+    mean_homicide = coef(homicide_fe_leadlag_reg)[1:48], 
+    se_homicide = homicide_fe_leadlag_reg$cse[1:48], 
+    mean_suicide = coef(suicide_fe_leadlag_reg)[1:48], 
+    se_suicide = suicide_fe_leadlag_reg$cse[1:48]
+    )
+  )
+
+# create homicide coefficient plot
+homicide_plot <- ggplot(data = leadlag_data, aes(x = label))+
+  geom_vline(xintercept = 0, color = 'red') +
+  geom_point(aes(y = mean_homicide)) +
+  geom_errorbar(aes(ymin = mean_homicide - 1.96*se_homicide, 
+                    ymax = mean_homicide +1.96*se_homicide)) +
+  xlab("Years before and after no-fault divorce law passage") +
+  ylab("95% CI ASMR, homicide") 
+
+# create suicide coefficient plot
+suicide_plot <- ggplot(data = leadlag_data, aes(x = label)) +
+  geom_vline(xintercept = 0, color = 'red') +
+  geom_point(aes(y = mean_suicide)) +
+  geom_errorbar(aes(ymin = mean_suicide - 1.96*se_suicide, 
+                    ymax = mean_suicide +1.96*se_suicide)) +
+  xlab("Years before and after no-fault divorce law passage") +
+  ylab("95% CI ASMR, suicide")
+
+# display stacked plots
+grid.arrange(homicide_plot, suicide_plot, ncol=1)
+```
+
