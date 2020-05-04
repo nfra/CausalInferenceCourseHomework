@@ -1,0 +1,20 @@
+---
+title: "The Effect of Groundwater Lithium on Labor Market Participation"
+author: "Nathan Franz"
+date: "4/26/2020"
+output: pdf_document
+---
+
+## Introduction
+
+
+## Methods
+
+For data on lithium concentrations, I downloaded data from the United Staes Geological Survey's Water Quality Portal from 1995 to present.
+
+
+## Results
+
+## Conclusion
+
+
