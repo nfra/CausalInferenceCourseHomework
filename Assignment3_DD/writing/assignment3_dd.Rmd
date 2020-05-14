@@ -7,18 +7,22 @@ output: pdf_document
 
 # Summary and Discussion of Stevenson's and Wolfer's Project
 
-Stevenson and Wolfers investigate the extent to which the passage of laws that increase access to divorce affects the rates of domestic violence, suicide, and spousal homicide.
-
-> b.	What is their research design?
-
-They use a difference-in-differences research design.
+Stevenson and Wolfers investigate the extent to which the passage of laws that increase access to divorce affects the rates of domestic violence, suicide, and spousal homicide. They use a difference-in-differences research design, comparing rates of domestic violence, suicide, and spousal homicide before and after the legalization of unilateral divorce.
 
 > c.	What data do they use?
+
+Their data on suicide come from the National Center for Health Statistics (NCHS) and consist of a complete collection of United States death certificates, which identify the causes of death. Their data on domestic violence come from 
+
 > d.	What is the key figure they present to illustrate their main findings in your opinion?
 > e.	Briefly summarize what they found in 1-2 sentences.
+
+They found that
+
 > f.	Did you find the analysis convincing? If so, what specific evidence was compelling? If not, what was missing that had they done it would’ve potentially been more convincing?
 
 > 2.	What is no fault divorce and why do Stevenson and Wolfers think it’s relevant to suicide and homicide?  Briefly explain their theory and what it has to do with the Coase theorem.
+
+*No-fault* (or *unilateral*) *divorce* is a legal paradigm in which either partner in a marriage may unilaterally carry out divorce proceedings without proving fault-based grounds. Stevenson and Wolfers, citing Gary Becker's 1993 paper "A Treatise on the Family", claim that the Coase theorem implies that no marriage for which the theorem's assumptions hold should persist if either spouse wants a divorce. Thus, Coase's theorem predicts no change in the divorce rate after the passage of a no-fault divorce law. However, Stevenson and Wolfers suggest that spouses that resort to violence likely violate the theorem's assumption of costless bargaining. One would therefore expect to see an increase in the divorce rate among such marriages and a concomitant reduction in the rates of domestic violence, suicide, and spousal homicide.
 
 > 3.	Write down and explain their estimation equation.  Explain what each variable means, what each coefficient means, what each summation sign means, what each subscript means, what the epsilon means.  What is the main parameter of interest?
 
