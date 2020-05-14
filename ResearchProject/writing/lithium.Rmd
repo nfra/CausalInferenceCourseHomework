@@ -1,20 +1,200 @@
 ---
 title: "The Effect of Groundwater Lithium on Labor Market Participation"
 author: "Nathan Franz"
-date: "4/26/2020"
+date: "5/12/2020"
 output: pdf_document
 ---
 
+## Abstract
+
+*This will be written after the completion of the paper.*
+
 ## Introduction
+
+Lithium in groundwater has been used as a treatment for bipolar disorder for over sixty years. A growing corpus has investigated this relationship and found both no correlation and significantly negative correlations between lithium in groundwater and the incidence of suicide. Some correlative evidence shows that its presence in areas' groundwater (in much lower concentrations than those used psychiatrically) is associated with decreased rates of suicide in those areas [Barjasteh-Askari 2020]. If truly present, the mechanism for this is unknown, though it is hypothesized that lithium may have a mood-regulating effect that tempers people's strongest emotional responses. If this hypothesis is true, the ingestion of trace amounts of lithium may also prevent the occurence of other events caused by heightened emotional responses, such as being fired or missing work for mental health reasons.
+
+In this project, I first attempt to replicate previous correlative results of the negative correlation between lithium in groundwater and suicide rate. I then estimate the causal relationship of lithium in groundwater on labor market participation and absences.
 
 
 ## Methods
 
-For data on lithium concentrations, I downloaded data from the United Staes Geological Survey's Water Quality Portal from 1995 to present.
+### Data Used
+
+I linked data from four sources.
+
+The replication of this portion of this project requires average lithium concentrations in groundwater at the county level, but the causal inference portion of this project requires average lithium concentrations at the level of Public-Use Microdata Areas (PUMAs). I used geospatial vector data to define the boundaries of these areas: the US Census Bureau's county shapefiles for counties and IPUMS-USA GIS Boundary Files for PUMAs.
+
+For suicide rates, I used the Institute for Health Metrics and Evaluation's data on mortality rates at the county level for the years 1980 to 2014. 
+
+For labor market participation, I used the IPUMS American Community Survey (ACS) data. I selected the yearly samples between the years 2005 and 2018. The data is limited to these samples because these are the samples for which the variable recording PUMA of residence is available.
+
+For lithium concentrations in groundwater, I used data from the United States Geological Survey (USGS) Water Quality Portal from 1995 to present. It includes almost 100,000 lithium measurements in 2040 out of 3142 counties and 1573 out of 2351 PUMAs. 
+
+The measurements taken at each site are not identical. Consequently, I used the average measurement at each site when calculating average lithium level in groundwater for a county or PUMA to avoid excessively weighting sites at which more measurements happen to be taken. To arrive at an average exposure per county or PUMA, I generated a grid of points over the entirety of the United States and used a modification of Shepard’s method of inverse distance weighting (IDW) to interpolate the lithium level at each of those points. The formula for the interpolated lithium value $z_j$ at grid-point $j$ is given by $$z_{j} = \sum_{i=1}^n\Big(\frac{R-d_{ij}}{R \cdot d_{ij}}\Big)^2 \cdot \sum_{i=1}^n z_i\Big(\frac{R-d_{ij}}{R \cdot d_{ij}}\Big)^2,$$ where $i$ corresponds to one of the $n$ lithium measurement sites within 100 kilometers of grid-point $j$, $d_{ij}$ is the distance between grid-point $j$ and measurement site $i$, amd $R$ is the maximum distance between grid-point $j$ and any of the set of measurement sites within 100 kilometers.
+
+This interpolation procedure deserves some scrutiny, since it ignores the geohydrological processes by which lithium enters and spreads through an area's groundwater. Though there is no theoretical basis for the use of IDW to interpolate trace concentrations of substances in groundwater, more rigorously estimating the lithium levels in groundwater across the entirety of the United States is infeasible given the time constraints on this project and my utter lack of expertise in this area. Moreover, this procedure is used by the professional software package Groundwater Modeling System, which indicates that its accuracy may be sufficient for aggregation at the county- or PUMA-level. Collaboration with a specialist in groundwater hydrology might assist in the quantification of uncertainty associated with and inaccuracy introduced by this interpolation method.
+
+*This interpolation procedure takes 12 hours to run for the density of grid I've made and has not finished yet.*
+
+### Replication of Correlation Between Lithium in Groundwater and Suicide Rate
+
+*The procedure I will use is still a little unclear to me. I may yet decide not to include this.*
+
+### Estimate of Causal Relationship of Lithium in Groundwater on Labor Market Participation
+
+Figure 1 presents a directed acyclical graph that models the causal relationships relevant to this research. The entity "Demographic Variables" includes variables such as age, sex, race, marriage status, presence of dependents, rural/urban status, and poverty status, which have a complex internal structure of causal relationships. The most questionable decision in the model presented is the lack of a causal relationship between any outcome variables and "Duration of Residence".
+
+![Directed Acyclical Graph for Research](../figures/dagitty-model.png)
+
+This model was used with a propensity score matching research design to identify the effect of lithium exposure on labor market participation and absence in the week prior to the survey. Those surveyed who moved into an area with high lithium levels in groundwater are considered treated. Those surveyed who moved into an area with low lithium levels are considered untreated.
+
+This exposes an assumption that may be unfounded: I assume that the decision to move to an area is independent of the mental health outcomes associated with living in that area. I think it is unlikely that the cumulative effect of lithium in drinking water is large enough to influence a person's decision to move to a place with higher levels.
 
 
 ## Results
 
+```{r setup, include=F}
+library(tidyverse)
+library(sf)
+library(data.table)
+
+##################
+# import lithium #
+##################
+
+# load lithium data
+
+raw_lithium_data = as.data.table(read.csv("../data/lithium_water_data/result.csv"))
+
+
+# clean lithium data
+
+# remove non-numeric data in measurement column
+lithium_data = subset(raw_lithium_data, (startsWith(as.character(raw_lithium_data$ResultMeasureValue), "0") | 
+                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "1") |
+                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "2") |
+                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "3") |
+                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "4") |
+                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "5") |
+                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "6") |
+                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "7") |
+                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "8") |
+                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "9") |
+                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), ".")
+                                         )
+                      )
+
+# remove non-concentration units
+lithium_data = subset(lithium_data, !(lithium_data$ResultMeasure.MeasureUnitCode == "ppb" |
+                                        lithium_data$ResultMeasure.MeasureUnitCode == "mg/kg" |
+                                        lithium_data$ResultMeasure.MeasureUnitCode == "count"
+                                      )
+                      )
+
+# change type of measurement column from factor to numeric
+lithium_data$ResultMeasureValue = as.numeric(as.character(lithium_data$ResultMeasureValue))
+
+# standardize mg to ug
+lithium_data$lithium.level.mcg.l = lithium_data$ResultMeasureValue
+lithium_data[ResultMeasure.MeasureUnitCode == 'mg/l', 'lithium.level.mcg.l'] = lithium_data[ResultMeasure.MeasureUnitCode == 'mg/l', 1000 * lithium.level.mcg.l]
+
+# correct date type
+lithium_data$ActivityStartDate = as.Date(as.character(lithium_data$ActivityStartDate), format = "%Y-%m-%d")
+
+# histogram of lithium levels, cut off at 500 mcg/l
+ggplot(data = subset(lithium_data, lithium_data$lithium.level.mcg.l < 500), aes(x = lithium.level.mcg.l)) +
+  geom_histogram(binwidth=10) + 
+  geom_vline(xintercept = 50, color = 'red')
+
+
+# load measurement station data
+raw_station_data = as.data.table(read.csv("../data/lithium_water_data/station.csv"))
+
+# add measurement location columns to lithium data
+measurement_location_vector = match(lithium_data$MonitoringLocationIdentifier, raw_station_data$MonitoringLocationIdentifier)
+lithium_data[['MeasurementLocation.Latitude']] = raw_station_data[measurement_location_vector, LatitudeMeasure]
+lithium_data[['MeasurementLocation.Longitude']] = raw_station_data[measurement_location_vector, LongitudeMeasure]
+lithium_data[['MeasurementLocation.StateCode']] = raw_station_data[measurement_location_vector, StateCode]
+lithium_data[['MeasurementLocation.CountyCode']] = raw_station_data[measurement_location_vector, CountyCode]
+lithium_data = subset(lithium_data, MeasurementLocation.Latitude != 0)
+
+measurements_sf = st_as_sf(as.data.frame(lithium_data[,64:68]), coords = 3:2, crs = 4269, dim = 'XY')
+measurements_sf = subset(measurements_sf, MeasurementLocation.StateCode <= 56)
+
+
+# calculate mean measurements for each site
+lithium_averaged_by_sites = subset(lithium_data, lithium.level.mcg.l <= 1000) %>%
+  group_by(MonitoringLocationIdentifier) %>%
+  summarize(mean.lithium.level.mcg.l = mean(lithium.level.mcg.l))
+
+# add monitoring site location columns
+monitoring_site_location_vector = match(lithium_averaged_by_sites$MonitoringLocationIdentifier, raw_station_data$MonitoringLocationIdentifier)
+
+monitoring_sites = lithium_averaged_by_sites
+monitoring_sites[['MonitoringSiteLocation.Latitude']] = raw_station_data[monitoring_site_location_vector, LatitudeMeasure]
+monitoring_sites[['MonitoringSiteLocation.Longitude']] = raw_station_data[monitoring_site_location_vector, LongitudeMeasure]
+monitoring_sites[['MonitoringSiteLocation.StateCode']] = raw_station_data[monitoring_site_location_vector, StateCode]
+monitoring_sites[['MonitoringSiteLocation.CountyCode']] = raw_station_data[monitoring_site_location_vector, CountyCode]
+
+# make sf object for average lithium level at each monitoring site
+monitoring_sites_sf = st_as_sf(monitoring_sites, coords = 4:3, crs = 4269, dim = 'XY')
+monitoring_sites_sf = subset(monitoring_sites_sf, MonitoringSiteLocation.StateCode <= 56)
+
+
+#####################
+# import shapefiles #
+#####################
+
+# load US county shapefiles
+counties = st_read("../data/tl_2017_us_county/tl_2017_us_county.shp")
+
+# remove non-state county shapes
+counties = subset(counties, as.numeric(as.character(STATEFP)) <= 56)
+
+# load PUMA shapefiles
+pumas = st_read("../data/ipums_usa_data/geographic/ipums_puma_2010/ipums_puma_2010.shp")
+
+# remove non-state PUMA shapes
+pumas = subset(pumas, as.numeric(as.character(STATEFIP)) <= 56)
+
+# transform monitoring sites to coordinate reference system of PUMAs
+monitoring_sites_trans = st_transform(monitoring_sites_sf, crs = st_crs(pumas))
+monitoring_sites_trans$row_number = seq(nrow(monitoring_sites_trans))
+```
+
+
+### Replication of Correlation Between Lithium in Groundwater and Suicide Rate
+
+The plot below shows the measurement sites laid on top of the counties of the US.
+
+*I have not completed this replication for the rough draft.*
+
+```{r county_plot, echo=F, warning=F}
+ggplot() +
+  geom_sf(data = pumas) +
+  geom_sf(data = monitoring_sites_trans, size = 0.1)
+```
+
+### Estimate of Causal Relationship of Lithium in Groundwater on Labor Market Participation
+
+*I have not completed this estimate for the rough draft.*
+
+The plot below shows the measurement sites laid on top of the PUMAs.
+
+```{r puma_plot, echo=F, warning=F}
+ggplot() +
+  geom_sf(data = st_transform(counties, crs = st_crs(pumas))) +
+  geom_sf(data = monitoring_sites_trans, size = 0.1)
+```
+
 ## Conclusion
 
+*I do not yet have the final results from which I might usefully conclude anything.*
 
+For the code used to generate my results and this paper, see <https://github.com/nfra/CausalInferenceCourseHomework/tree/master/ResearchProject>.
+
+## References
+
+*These will be managed with* `citation_package` *in the final draft.*
+
+Barjasteh-Askari 2020
