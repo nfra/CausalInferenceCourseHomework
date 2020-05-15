@@ -7,33 +7,41 @@ output: pdf_document
 
 # Summary and Discussion of Stevenson's and Wolfer's Project
 
-Stevenson and Wolfers investigate the extent to which the passage of laws that increase access to divorce affects the rates of domestic violence, suicide, and spousal homicide. They use a difference-in-differences research design, comparing rates of domestic violence, suicide, and spousal homicide before and after the legalization of unilateral divorce.
+### Summary
 
-> c.	What data do they use?
+Stevenson and Wolfers investigate the extent to which the passage of laws that increase access to divorce affects the rates of measures of extreme marital distress. They use a difference-in-differences research design, comparing rates of suicide, domestic violence, and spousal homicide before and after the legalization of unilateral divorce.
 
-Their data on suicide come from the National Center for Health Statistics (NCHS) and consist of a complete collection of United States death certificates, which identify the causes of death. Their data on domestic violence come from 
+Their data on suicide come from the National Center for Health Statistics (NCHS) and consist of a complete collection of United States death certificates that identify the cause of death. Their data on domestic violence come from the Family Violence Surveys taken in 1976 and 1985. Their data on homicide come from the FBI Uniform Crime Reports, which provide incident-level information on criminal homicides including data, location, and relationship of the perpetrator to the victim if known.
 
-> d.	What is the key figure they present to illustrate their main findings in your opinion?
-> e.	Briefly summarize what they found in 1-2 sentences.
+They find that total female suicide declined in the long run by around 20 percent in states that legalized unilateral divorce. They also find reductions between one percent and five percent in the rates of domestic violence depnding on estimation strategy and direction of violence. They finally find that the rate of intimate homicide decreases, though not significantly. 
 
-They found that
+### Discussion
 
-> f.	Did you find the analysis convincing? If so, what specific evidence was compelling? If not, what was missing that had they done it would’ve potentially been more convincing?
+Figure I seems to be the key figure in which they illustrate their main findings. It presents the results for female suicide in a very digestible way without casting doubt on them. 
 
-> 2.	What is no fault divorce and why do Stevenson and Wolfers think it’s relevant to suicide and homicide?  Briefly explain their theory and what it has to do with the Coase theorem.
+I find the suicide result convincing, particularly its robustness to the battery of alternative estimation procedures as detailed on page 278. However, I worry a little about the accuracy of the suicide data, since those who determined the causes of death for people may have wished to misclassify suicides for religious (or other) reasons. Morever, those motivations may have changed over the course of the decade in which the data was collected as social mores changed. 
 
-*No-fault* (or *unilateral*) *divorce* is a legal paradigm in which either partner in a marriage may unilaterally carry out divorce proceedings without proving fault-based grounds. Stevenson and Wolfers, citing Gary Becker's 1993 paper "A Treatise on the Family", claim that the Coase theorem implies that no marriage for which the theorem's assumptions hold should persist if either spouse wants a divorce. Thus, Coase's theorem predicts no change in the divorce rate after the passage of a no-fault divorce law. However, Stevenson and Wolfers suggest that spouses that resort to violence likely violate the theorem's assumption of costless bargaining. One would therefore expect to see an increase in the divorce rate among such marriages and a concomitant reduction in the rates of domestic violence, suicide, and spousal homicide.
+### No-Fault Divorce and the Coase Theorem
 
-> 3.	Write down and explain their estimation equation.  Explain what each variable means, what each coefficient means, what each summation sign means, what each subscript means, what the epsilon means.  What is the main parameter of interest?
+*No-fault* (or *unilateral*) *divorce* is a legal paradigm in which either partner in a marriage may unilaterally carry out divorce proceedings without proving fault-based grounds. Stevenson and Wolfers, citing Gary Becker's 1993 paper "A Treatise on the Family", claim that the Coase theorem implies that no marriage for which the theorem's assumptions hold should persist if either spouse wants a divorce. Thus, Coase's theorem predicts no change in the divorce rate after the passage of a no-fault divorce law. However, Stevenson and Wolfers suggest that spouses that resort to violence likely violate the theorem's assumption of costless bargaining. One would therefore expect to see an increase in the divorce rate among such marriages and a concomitant reduction in the rates of suicide, domestic violence, and spousal homicide.
 
-Their estimation equation for space- and time-specific suicide rate is
+### Explanation of Suicide Estimation Equation
+
+Their estimation equation for state- and time-specific suicide rate is
 $$ Suicide \, rate_{s,t} = {\sum_{k} \beta_k Unilateral_{s,t}^k} + 
                            {\sum_s \eta_s State_s} +
                            {\sum_t \lambda_t Year_t} +
                            {Controls_{s,t} + \varepsilon_{s,t}},$$  
-where $\beta_k$ is the change in the suicide rate due to the passage of a unilateral divorce law $k$ years ago, $\eta_s$ is the partial effect of living in state $s$ on suicide rates holding all else fixed, $\lambda_t$ is the partial effect of living in year $t$ on suicide rates holding all else fixed, the first summation sign captures the 
+where 
 
-\newpage
+* $Unilateral^k$ is a series of dummy variables set to one for observations that took place in a state that passed a unilateral divorce law $k$ years ago and $\beta_k$ (the main parameter of interest) is the change in the suicide rate due to that passage;
+* $State_s$ is series of dummy variables set to one for observations that took place in a particular state $s$ and $\eta_s$ is the partial effect of living in that state on suicide rates holding all else fixed;
+* $Year_t$ is a series of dummy variables set to one for observations that took place in a particular year $t$ and $\lambda_t$ is the partial effect of living in that year on suicide rates holding all else fixed;
+* $Controls_{s,t}$ is a series of variables meant to control for per-state and per-year differences in demographic and social policies; and
+* $\varepsilon_{s,t}$ is the per-state and per-year error term.
+
+The first summation term captures the effect of the unilateral divorce laws. The second and third summation terms capture the state and year fixed effects, respectively.
+
 
 # Table of States and Treatment Dates
 
@@ -45,10 +53,10 @@ library(knitr)
 library(lfe)
 library(gridExtra)
 library(data.table)
+library(bacondecomp)
 ```
 
-```
-# load packages
+```{r load_packages_to_include, eval=FALSE}
 library(tidyverse)
 library(haven)
 library(stargazer)
@@ -56,6 +64,7 @@ library(knitr)
 library(lfe)
 library(gridExtra)
 library(data.table)
+library(bacondecomp)
 ```
 
 ```{r load_data}
@@ -139,8 +148,11 @@ stargazer(homicide_fe_reg,
           )
 ```
 
-> 9.	What is the identifying assumption needed to estimate the variance weighted ATT when there is differential timing and using OLS?  
+\newpage
 
+### Event Study
+
+The identifying assumptions of variance-weighted common trends and time-invariant treatment effects are needed to estimate the variance-weighted ATT using OLS when there is differential timing.
 
 ```{r coefficient_plots, warning=FALSE}
 # event study
@@ -185,4 +197,68 @@ suicide_plot <- ggplot(data = leadlag_data, aes(x = label)) +
 # display stacked plots
 grid.arrange(homicide_plot, suicide_plot, ncol=1)
 ```
+
+```{r leads_and_lags_table, results='asis', warning=F}
+homicide_fe_leadlag_post_reg = felm(asmrh ~ post + as.factor(I(year - `_nfd`)) | statename + year | 0 | statename, data = divorce)
+suicide_fe_leadlag_post_reg = felm(asmrs ~ post + as.factor(I(year - `_nfd`)) | statename + year | 0 | statename, data = divorce)
+
+
+stargazer(homicide_fe_leadlag_post_reg, 
+          suicide_fe_leadlag_post_reg,
+          header = FALSE,
+          single.row = TRUE,
+          model.numbers = FALSE,
+          title = "Estimates of Mean Female ASMR Due to Homicide and Suicide in Lead and Lag Years",
+          dep.var.caption = '',
+          dep.var.labels = c("Homicide", "Suicide"),
+          covariate.labels = c("Post-Treatment", "Lead 20", "Lead 19", "Lead 18", "Lead 17", "Lead 16", "Lead 15", "Lead 14", "Lead 13", "Lead 12", "Lead 11", "Lead 10", "Lead 9", "Lead 8", "Lead 7", "Lead 6", "Lead 5", "Lead 4", "Lead 3", "Lead 2", "Lead 1", "Treatment Year", "Lag 1", "Lag 2", "Lag 3", "Lag 4", "Lag 5", "Lag 6", "Lag 7", "Lag 8", "Lag 9", "Lag 10", "Lag 11", "Lag 12", "Lag 13", "Lag 14", "Lag 15", "Lag 16", "Lag 17", "Lag 18", "Lag 19", "Lag 20", "Lag 21", "Lag 22", "Lag 23", "Lag 24", "Lag 25", "Lag 26", "Lag 27"),
+          keep.stat = c('n'),
+          notes = "Standard errors are clustered by state."
+          )
+```
+
+
+```{r bacon_decomp, warning=F, }
+homicide_bacon_decomp <- bacon(asmrh ~ post,
+                              data = divorce, id_var = "statename",
+                              time_var = "year")
+
+suicide_bacon_decomp <- bacon(asmrs ~ post,
+                  data = divorce, id_var = "statename",
+                  time_var = "year")
+
+```
+
+
+The coefficients on the leads and lags are the mean age-specific mortality rates due to suicide or spousal homicide at year $t-k$ before or after the passage of the laws.
+
+These coefficients are not measured compared to the untreated control units, so they do not convince me that the treatment group units were not statistically different from the control units in the pretreatment period.
+
+
+```{r bacon_decomp_2x2s, warning=F}
+homicide_bacon_decomp_plot_data = as.data.frame(homicide_bacon_decomp)
+suicide_bacon_decomp_plot_data = as.data.frame(suicide_bacon_decomp)
+
+ggplot(data = homicide_bacon_decomp_plot_data) + 
+  geom_point(aes(x = weight, y = estimate, color = type)) +
+  labs(title ="Two-by-Two Decomposition of OLS Estimation, Homicide") +
+  xlab("Weight") +
+  ylab("Estimate")
+
+ggplot(data = suicide_bacon_decomp_plot_data) + 
+  geom_point(aes(x = weight, y = estimate, color = type)) +
+  labs(title = "Two-by-Two Decomposition of OLS Estimation, Suicide") +
+  xlab("Weight") +
+  ylab("Estimate")
+
+sum(homicide_bacon_decomp_plot_data$weight*homicide_bacon_decomp_plot_data$estimate)
+sum(suicide_bacon_decomp_plot_data$weight*suicide_bacon_decomp_plot_data$estimate)
+```
+
+Note that these sums are identical to the DD coefficients I estimated above.
+
+The static DD parameter is a biased estimate of the true ATT if the treatment effect varies over time or if the variance-weighted common trends do not sum to 0. The former is testable, but the latter is not because it requires knowledge of the counterfactual. We should only be as concerned about this untestability as we are about the untestability of the assumption of parallel trends in the simple two-by-two DD estimator. 
+
+
+
 
