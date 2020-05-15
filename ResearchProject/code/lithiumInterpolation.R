@@ -1,11 +1,7 @@
 library(tidyverse)
-library(sf)
-library(gstat)
 library(data.table)
+library(sf)
 
-library(sp)
-library(rgdal)
-library(dismo)
 
 ##################
 # import lithium #
@@ -116,7 +112,7 @@ pumas = subset(pumas, as.numeric(as.character(STATEFIP)) <= 56)
 monitoring_sites_puma_list = st_contains(st_transform(pumas, crs = 4269), monitoring_sites_sf)
 monitoring_sites_county_list = st_contains(counties, monitoring_sites_sf)
 
-# create grid of points based on PUMAs and convert them to proper sf type
+# create grid of points based on PUMAs and convert them to normal sf type
 puma_grid = st_make_grid(pumas, n = c(1500, 1500), what = 'centers')
 puma_grid_df = as.data.frame(puma_grid)
 puma_grid_df$latitude = subset(unlist(puma_grid_df$geometry), seq(1, nrow(puma_grid_df)*2)%%2 == 0)
@@ -136,37 +132,18 @@ for (puma_number_local in seq(nrow(pumas)))
   puma_grid_sf[puma_contents_local, 'PUMA'] = pumas$PUMA[puma_number_local]
 }
 
-# identify k nearest neighbors for all grid points and perform IDW on them, with inverse distance squared
-d = 100000
-
+# transform monitoring sites CRS to PUMA CRS
 monitoring_sites_trans = st_transform(monitoring_sites_sf, crs = st_crs(pumas))
 monitoring_sites_trans$row_number = seq(nrow(monitoring_sites_trans))
 
+# identify all monitoring sites within distance d for all grid points 
+# [TAKES A FEW HOURS]
+d = 100000
+within100000_list = st_is_within_distance(puma_grid_sf, monitoring_sites_trans, d)
 
-within_list = st_is_within_distance(puma_grid_sf, monitoring_sites_trans, d)
+# save that shit!
+write.csv(within100000_list, "./data/within100000_list.csv")
 
-
-
-
-for (grid_point_number in seq(nrow(puma_grid_sf)))
-{
-  grid_point = puma_grid_sf[grid_point_number,]
-  closest_vector = numeric(0)
-  for (i in seq(k))
-  {
-    sites_not_in_closest_vector = setdiff(seq(nrow(monitoring_sites_trans)), closest_vector)
-    next_closest_site = which.min(st_distance(grid_point, 
-                                              monitoring_sites_trans[sites_not_in_closest_vector, ]
-                                              )
-                                  )
-    next_closest_site_corrected = as.data.frame(monitoring_sites_trans[sites_not_in_closest_vector, ])[next_closest_site, 'row_number']
-    closest_vector = append(closest_vector, next_closest_site_corrected)
-  }
-  
-  closest_site_distances = st_distance(grid_point, monitoring_sites_trans[closest_vector, ])
-  closest_site_lithium_values = as.data.frame(monitoring_sites_trans)[closest_vector, 'mean.lithium.level.mcg.l']
-  puma_grid_sf[grid_point_number,'lithium_idw_interpolation'] = sum(closest_site_lithium_values/closest_site_distances^2)
-}
 
 # plot monitoring site locations in PUMAs and in counties (projected like pumas)
 ggplot() +
@@ -181,7 +158,9 @@ ggplot() +
   geom_sf(data = monitoring_sites_trans[1:1000,], alpha = 0.1, size = 0.1)
 
 
-
+############################
+# naively estimate lithium #
+############################
 
  
 # loop through PUMAs and save which PUMA the monitoring sites are in
@@ -209,25 +188,55 @@ county_crude_data = monitoring_sites_sf %>%
   group_by(MonitoringSiteLocation.StateCode, MonitoringSiteLocation.CountyCode) %>%
   summarize(mean.lithium.level.mcg.l = mean(mean.lithium.level.mcg.l))
 
-##################
-# import suicide #
-##################
 
-suicide = as.data.table(read.csv("./data/county_suicide_data/usa_00005.csv"))
+#######################
+# interpolate lithium #
+#######################
 
+# read it because saving it changes its format
+within100000_list = read.csv("./data/within100000_list.csv")
 
+# Run modified Shepard IDW interpolation at each grid point
+# [TAKES >10 HOURS]
+for(grid_point_number in seq(nrow(puma_grid_sf)))
+{
+  # set up objects
+  grid_point = puma_grid_sf[grid_point_number,]
+  sites_within_100000m = monitoring_sites_trans[within100000_list[grid_point_number == within100000_list$row.id, 'col.id'],]
+  
+  # set up variables
+  lithium_levels = sites_within_100000m$mean.lithium.level.mcg.l
+  distances = st_distance(sites_within_100000m, grid_point)
+  max_distance = max(distances)
+  
+  # calculate interpolated value
+  idw_weights = ((max_distance - distances)/max_distance * distances)^2
+  interpolated_lithium_value = sum(idw_weights)^-1 * sum(lithium_levels * idw_weights)
+  
+  # save result to grid-point
+  puma_grid_sf[grid_point_number ,'lithium_value'] = interpolated_lithium_value
+  
+  # update status
+  if (grid_point_number%%3770 == 0)
+  {
+    print(paste(floor(grid_point_number/376988*100), "%"))
+  }
+}
 
+# save that shit!
+write_csv(puma_grid_sf, "./data/interp_values.csv")
 
-##############
-# import ACS #
-##############
+# Calculate average lithium level in each PUMA
+for(puma_number_local in seq(nrow(pumas)))
+{
+  grid_points_in_puma = puma_grid_sf[unlist(puma_grid_in_puma[puma_number_local]),]
+  pumas[puma_number_local, 'lithium_value'] = mean(grid_points_in_puma$lithium_value, na.rm = T)
+}
 
-acs = as.data.table(read.csv("./data/ipums_usa_data/usa_00005.csv"))
+# Plot PUMAs colored by lithium value
+ggplot()+
+  geom_sf(aes(fill = lithium_value, color = lithium_value), data = pumas)
 
-
-summary(acs$WKSWORK2)
-
-summary(acs$MOVEDIN)
 
 
 
