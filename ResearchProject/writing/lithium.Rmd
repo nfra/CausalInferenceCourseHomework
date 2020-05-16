@@ -34,7 +34,60 @@ The measurements taken at each site are not identical. Consequently, I used the 
 
 This interpolation procedure deserves some scrutiny, since it ignores the geohydrological processes by which lithium enters and spreads through an area's groundwater. Though there is no theoretical basis for the use of IDW to interpolate trace concentrations of substances in groundwater, more rigorously estimating the lithium levels in groundwater across the entirety of the United States is infeasible given the time constraints on this project and my utter lack of expertise in this area. Moreover, this procedure is used by the professional software package Groundwater Modeling System, which indicates that its accuracy may be sufficient for aggregation at the county- or PUMA-level. Collaboration with a specialist in groundwater hydrology might assist in the quantification of uncertainty associated with and inaccuracy introduced by this interpolation method.
 
-*This interpolation procedure takes 12 hours to run for the density of grid I've made and has not finished yet.*
+```{r setup, include=F}
+library(tidyverse)
+library(sf)
+library(data.table)
+
+#####################
+# import shapefiles #
+#####################
+
+# load PUMA shapefiles
+pumas = st_read("../data/ipums_usa_data/geographic/ipums_puma_2010/ipums_puma_2010.shp")
+
+# remove non-state PUMA shapes
+pumas = subset(pumas, as.numeric(as.character(STATEFIP)) <= 56)
+
+#######################
+# import lithium data #
+#######################
+
+# read lithium data
+interpolated_lithium_values = as.data.frame(read.csv("../data/lithium_water_data/interp_values.csv", 
+                                                              stringsAsFactors = FALSE))
+# turn geometry back into coordinates
+coords_flat = unlist(strsplit(substr(interpolated_lithium_values$geometry, 3, nchar(interpolated_lithium_values$geometry) - 1), ', '))
+interpolated_lithium_values$longitude = as.numeric(coords_flat[1:length(coords_flat)%%2 == 1])
+interpolated_lithium_values$latitude = as.numeric(coords_flat[1:length(coords_flat)%%2 == 0])
+
+# make sf object for "contains" calculation
+interpolated_lithium_values_sf = st_as_sf(interpolated_lithium_values, coords = 3:4, crs = st_crs(pumas))
+
+#################################
+# calculate PUMA lithium levels #
+#################################
+
+# run contains calculation for average lithium level calculation below
+grid_in_puma_list = st_contains(pumas, interpolated_lithium_values_sf)
+
+# calculate average lithium level in each PUMA
+for(puma_number_local in seq(nrow(pumas)))
+{
+  grid_points_in_puma = interpolated_lithium_values_sf[unlist(grid_in_puma_list[puma_number_local]),]
+  pumas[puma_number_local, 'lithium_value'] = mean(grid_points_in_puma$lithium_value, na.rm = T)
+}
+
+
+```
+
+Nonetheless, the results from this interpolation and averaging procedure are presented below.
+
+```{r lithium_map, echo=F, warning=F}
+ggplot(data = pumas) +
+  geom_sf(aes(fill = lithium_value, color = lithium_value))
+```
+
 
 ### Replication of Correlation Between Lithium in Groundwater and Suicide Rate
 
@@ -50,117 +103,26 @@ This model was used with a propensity score matching research design to identify
 
 This exposes an assumption that may be unfounded: I assume that the decision to move to an area is independent of the mental health outcomes associated with living in that area. I think it is unlikely that the cumulative effect of lithium in drinking water is large enough to influence a person's decision to move to a place with higher levels.
 
+Deciding where to split the continuous variable of lithium concentration into a treatment level or an untreated level is somewhat thorny. According to the interpolation and averaging method I used to determine the mean exposure to lithium in each locality, the median PUMA has a mean lithium level of 14 mcg/L and the mean PUMA has a mean lithium level of 23 mcg/L. These serve as a useful lower bound for where to cut the treatment variable. The figure below shows the per-PUMA lithium level histogram.
+
+```{r lithium_histogram, echo=F, warning=F}
+ggplot(data = pumas) +
+  geom_histogram(aes(x = lithium_value), binwidth = 5)
+```
+
+REVIEW1, REVIEW2, REVIEW3, and REVIEW4 emphasize that increased lithium levels are negatively correlated with incidence of suicide but neither they nor the papers they review give much guidance as to what levels count as "elevated". However, one exception is Schrauzer and Shrestha (1990), who suggest that a lithium concentration greater than 70 mcg/L is a high level. I follow this for my main result, but I test the robustness of my results to variation of this cutoff. 
+
+With 70 mcg/L as the cutoff level for inclusion into the treatment group, the treatment map is presented below.
+
+```{r treatment_map, echo=F, warning=F}
+# make treatment variable per PUMA, lithium value > 70 mcg/l
+pumas$treatment_value = (pumas$lithium_value > 70)
+
+ggplot(data = pumas) +
+  geom_sf(aes(fill = treatment_value, color = treatment_value))
+```
 
 ## Results
-
-```{r setup, include=F}
-library(tidyverse)
-library(sf)
-library(data.table)
-
-##################
-# import lithium #
-##################
-
-# load lithium data
-
-raw_lithium_data = as.data.table(read.csv("../data/lithium_water_data/result.csv"))
-
-
-# clean lithium data
-
-# remove non-numeric data in measurement column
-lithium_data = subset(raw_lithium_data, (startsWith(as.character(raw_lithium_data$ResultMeasureValue), "0") | 
-                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "1") |
-                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "2") |
-                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "3") |
-                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "4") |
-                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "5") |
-                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "6") |
-                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "7") |
-                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "8") |
-                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), "9") |
-                                           startsWith(as.character(raw_lithium_data$ResultMeasureValue), ".")
-                                         )
-                      )
-
-# remove non-concentration units
-lithium_data = subset(lithium_data, !(lithium_data$ResultMeasure.MeasureUnitCode == "ppb" |
-                                        lithium_data$ResultMeasure.MeasureUnitCode == "mg/kg" |
-                                        lithium_data$ResultMeasure.MeasureUnitCode == "count"
-                                      )
-                      )
-
-# change type of measurement column from factor to numeric
-lithium_data$ResultMeasureValue = as.numeric(as.character(lithium_data$ResultMeasureValue))
-
-# standardize mg to ug
-lithium_data$lithium.level.mcg.l = lithium_data$ResultMeasureValue
-lithium_data[ResultMeasure.MeasureUnitCode == 'mg/l', 'lithium.level.mcg.l'] = lithium_data[ResultMeasure.MeasureUnitCode == 'mg/l', 1000 * lithium.level.mcg.l]
-
-# correct date type
-lithium_data$ActivityStartDate = as.Date(as.character(lithium_data$ActivityStartDate), format = "%Y-%m-%d")
-
-# histogram of lithium levels, cut off at 500 mcg/l
-ggplot(data = subset(lithium_data, lithium_data$lithium.level.mcg.l < 500), aes(x = lithium.level.mcg.l)) +
-  geom_histogram(binwidth=10) + 
-  geom_vline(xintercept = 50, color = 'red')
-
-
-# load measurement station data
-raw_station_data = as.data.table(read.csv("../data/lithium_water_data/station.csv"))
-
-# add measurement location columns to lithium data
-measurement_location_vector = match(lithium_data$MonitoringLocationIdentifier, raw_station_data$MonitoringLocationIdentifier)
-lithium_data[['MeasurementLocation.Latitude']] = raw_station_data[measurement_location_vector, LatitudeMeasure]
-lithium_data[['MeasurementLocation.Longitude']] = raw_station_data[measurement_location_vector, LongitudeMeasure]
-lithium_data[['MeasurementLocation.StateCode']] = raw_station_data[measurement_location_vector, StateCode]
-lithium_data[['MeasurementLocation.CountyCode']] = raw_station_data[measurement_location_vector, CountyCode]
-lithium_data = subset(lithium_data, MeasurementLocation.Latitude != 0)
-
-measurements_sf = st_as_sf(as.data.frame(lithium_data[,64:68]), coords = 3:2, crs = 4269, dim = 'XY')
-measurements_sf = subset(measurements_sf, MeasurementLocation.StateCode <= 56)
-
-
-# calculate mean measurements for each site
-lithium_averaged_by_sites = subset(lithium_data, lithium.level.mcg.l <= 1000) %>%
-  group_by(MonitoringLocationIdentifier) %>%
-  summarize(mean.lithium.level.mcg.l = mean(lithium.level.mcg.l))
-
-# add monitoring site location columns
-monitoring_site_location_vector = match(lithium_averaged_by_sites$MonitoringLocationIdentifier, raw_station_data$MonitoringLocationIdentifier)
-
-monitoring_sites = lithium_averaged_by_sites
-monitoring_sites[['MonitoringSiteLocation.Latitude']] = raw_station_data[monitoring_site_location_vector, LatitudeMeasure]
-monitoring_sites[['MonitoringSiteLocation.Longitude']] = raw_station_data[monitoring_site_location_vector, LongitudeMeasure]
-monitoring_sites[['MonitoringSiteLocation.StateCode']] = raw_station_data[monitoring_site_location_vector, StateCode]
-monitoring_sites[['MonitoringSiteLocation.CountyCode']] = raw_station_data[monitoring_site_location_vector, CountyCode]
-
-# make sf object for average lithium level at each monitoring site
-monitoring_sites_sf = st_as_sf(monitoring_sites, coords = 4:3, crs = 4269, dim = 'XY')
-monitoring_sites_sf = subset(monitoring_sites_sf, MonitoringSiteLocation.StateCode <= 56)
-
-
-#####################
-# import shapefiles #
-#####################
-
-# load US county shapefiles
-counties = st_read("../data/tl_2017_us_county/tl_2017_us_county.shp")
-
-# remove non-state county shapes
-counties = subset(counties, as.numeric(as.character(STATEFP)) <= 56)
-
-# load PUMA shapefiles
-pumas = st_read("../data/ipums_usa_data/geographic/ipums_puma_2010/ipums_puma_2010.shp")
-
-# remove non-state PUMA shapes
-pumas = subset(pumas, as.numeric(as.character(STATEFIP)) <= 56)
-
-# transform monitoring sites to coordinate reference system of PUMAs
-monitoring_sites_trans = st_transform(monitoring_sites_sf, crs = st_crs(pumas))
-monitoring_sites_trans$row_number = seq(nrow(monitoring_sites_trans))
-```
 
 
 ### Replication of Correlation Between Lithium in Groundwater and Suicide Rate
@@ -169,11 +131,6 @@ The plot below shows the measurement sites laid on top of the counties of the US
 
 *I have not completed this replication for the rough draft.*
 
-```{r county_plot, echo=F, warning=F}
-ggplot() +
-  geom_sf(data = pumas) +
-  geom_sf(data = monitoring_sites_trans, size = 0.1)
-```
 
 ### Estimate of Causal Relationship of Lithium in Groundwater on Labor Market Participation
 
@@ -181,11 +138,6 @@ ggplot() +
 
 The plot below shows the measurement sites laid on top of the PUMAs.
 
-```{r puma_plot, echo=F, warning=F}
-ggplot() +
-  geom_sf(data = st_transform(counties, crs = st_crs(pumas))) +
-  geom_sf(data = monitoring_sites_trans, size = 0.1)
-```
 
 ## Conclusion
 
