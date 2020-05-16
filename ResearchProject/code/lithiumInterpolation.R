@@ -118,9 +118,11 @@ puma_grid_df = as.data.frame(puma_grid)
 puma_grid_df$latitude = subset(unlist(puma_grid_df$geometry), seq(1, nrow(puma_grid_df)*2)%%2 == 0)
 puma_grid_df$longitude = subset(unlist(puma_grid_df$geometry), seq(1, nrow(puma_grid_df)*2)%%2 == 1)
 
-puma_grid_in_puma = st_contains(pumas, puma_grid_sf)
-
 puma_grid_sf = st_as_sf(puma_grid_df, coords = c(3,2), crs = st_crs(pumas))
+
+# save which grid-points are in which PUMA, county
+puma_grid_in_puma = st_contains(pumas, puma_grid_sf)
+puma_grid_in_county = st_contains(pumas, puma_grid_sf)
 
 # to check number of pumas containing a grid entry 
 # sum(apply(st_contains(pumas, puma_grid_sf, sparse = FALSE), MARGIN = 1, FUN = any))
@@ -231,6 +233,13 @@ for(puma_number_local in seq(nrow(pumas)))
 {
   grid_points_in_puma = puma_grid_sf[unlist(puma_grid_in_puma[puma_number_local]),]
   pumas[puma_number_local, 'lithium_value'] = mean(grid_points_in_puma$lithium_value, na.rm = T)
+}
+
+# Calculate average lithium level in each county
+for(county_number_local in seq(nrow(counties)))
+{
+  grid_points_in_county = puma_grid_sf[unlist(puma_grid_in_county[county_number_local]),]
+  counties[county_number_local, 'lithium_value'] = mean(grid_points_in_county$lithium_value, na.rm = T)
 }
 
 # Plot PUMAs colored by lithium value
