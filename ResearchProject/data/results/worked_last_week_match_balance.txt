@@ -1,0 +1,1189 @@
+
+***** (V1) YEAR2012 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.16758 	 	    0.26372 
+mean control..........    0.17094 	 	    0.26372 
+std mean diff.........   -0.89981 	 	          0 
+
+mean raw eQQ diff.....  0.0033622 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0016805 	 	          0 
+med  eCDF diff........  0.0016805 	 	          0 
+max  eCDF diff........   0.003361 	 	          0 
+
+var ratio (Tr/Co).....    0.98448 	 	          1 
+T-test p-value........    0.51143 	 	          1 
+
+
+***** (V2) YEAR2013 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.12812 	 	    0.12212 
+mean control..........    0.12905 	 	    0.12212 
+std mean diff.........   -0.27777 	 	          0 
+
+mean raw eQQ diff.....  0.0010618 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........ 0.00046422 	 	          0 
+med  eCDF diff........ 0.00046422 	 	          0 
+max  eCDF diff........ 0.00092845 	 	          0 
+
+var ratio (Tr/Co).....    0.99403 	 	          1 
+T-test p-value........    0.83933 	 	          1 
+
+
+***** (V3) YEAR2014 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.12723 	 	   0.092035 
+mean control..........    0.12512 	 	   0.092035 
+std mean diff.........    0.63444 	 	          0 
+
+mean raw eQQ diff.....  0.0021235 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0010572 	 	          0 
+med  eCDF diff........  0.0010572 	 	          0 
+max  eCDF diff........  0.0021144 	 	          0 
+
+var ratio (Tr/Co).....     1.0146 	 	          1 
+T-test p-value........     0.6431 	 	          1 
+
+
+***** (V4) YEAR2015 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.11768 	 	   0.083186 
+mean control..........    0.12336 	 	   0.083186 
+std mean diff.........    -1.7642 	 	          0 
+
+mean raw eQQ diff.....  0.0056627 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0028426 	 	          0 
+med  eCDF diff........  0.0028426 	 	          0 
+max  eCDF diff........  0.0056852 	 	          0 
+
+var ratio (Tr/Co).....    0.96026 	 	          1 
+T-test p-value........    0.19831 	 	          1 
+
+
+***** (V5) YEAR2016 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.10972 	 	   0.095575 
+mean control..........     0.1196 	 	   0.095575 
+std mean diff.........    -3.1611 	 	          0 
+
+mean raw eQQ diff.....  0.0099098 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0049402 	 	          0 
+med  eCDF diff........  0.0049402 	 	          0 
+max  eCDF diff........  0.0098804 	 	          0 
+
+var ratio (Tr/Co).....    0.92783 	 	          1 
+T-test p-value........    0.02132 	 	          1 
+
+
+***** (V6) YEAR2017 *****
+                       Before Matching 	 	 After Matching
+mean treatment........     0.1152 	 	   0.099115 
+mean control..........    0.11946 	 	   0.099115 
+std mean diff.........     -1.333 	 	          0 
+
+mean raw eQQ diff.....   0.004247 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0021282 	 	          0 
+med  eCDF diff........  0.0021282 	 	          0 
+max  eCDF diff........  0.0042563 	 	          0 
+
+var ratio (Tr/Co).....    0.96919 	 	          1 
+T-test p-value........     0.3309 	 	          1 
+
+
+***** (V7) YEAR2018 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.12423 	 	   0.054867 
+mean control..........    0.11845 	 	   0.054867 
+std mean diff.........     1.7522 	 	          0 
+
+mean raw eQQ diff.....  0.0056627 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0028899 	 	          0 
+med  eCDF diff........  0.0028899 	 	          0 
+max  eCDF diff........  0.0057798 	 	          0 
+
+var ratio (Tr/Co).....     1.0421 	 	          1 
+T-test p-value........    0.20034 	 	          1 
+
+
+***** (V8) REGION12 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.089719 	 	    0.25133 
+mean control..........    0.14683 	 	    0.25133 
+std mean diff.........    -19.984 	 	          0 
+
+mean raw eQQ diff.....   0.057158 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.028557 	 	          0 
+med  eCDF diff........   0.028557 	 	          0 
+max  eCDF diff........   0.057115 	 	          0 
+
+var ratio (Tr/Co).....    0.65204 	 	          1 
+T-test p-value........ < 2.22e-16 	 	          1 
+
+
+***** (V9) REGION21 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.11414 	 	     0.2885 
+mean control..........    0.14958 	 	     0.2885 
+std mean diff.........    -11.145 	 	          0 
+
+mean raw eQQ diff.....   0.035569 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........    0.01772 	 	          0 
+med  eCDF diff........    0.01772 	 	          0 
+max  eCDF diff........    0.03544 	 	          0 
+
+var ratio (Tr/Co).....      0.795 	 	          1 
+T-test p-value........ 8.8818e-16 	 	          1 
+
+
+***** (V10) REGION22 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.065121 	 	    0.10619 
+mean control..........   0.058765 	 	    0.10619 
+std mean diff.........     2.5757 	 	          0 
+
+mean raw eQQ diff.....  0.0063706 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.003178 	 	          0 
+med  eCDF diff........   0.003178 	 	          0 
+max  eCDF diff........  0.0063559 	 	          0 
+
+var ratio (Tr/Co).....     1.1009 	 	          1 
+T-test p-value........   0.059417 	 	          1 
+
+
+***** (V11) REGION31 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.049195 	 	   0.015929 
+mean control..........    0.19685 	 	   0.015929 
+std mean diff.........    -68.266 	 	          0 
+
+mean raw eQQ diff.....    0.14776 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.073827 	 	          0 
+med  eCDF diff........   0.073827 	 	          0 
+max  eCDF diff........    0.14765 	 	          0 
+
+var ratio (Tr/Co).....     0.2959 	 	          1 
+T-test p-value........ < 2.22e-16 	 	          1 
+
+
+***** (V12) REGION32 *****
+                       Before Matching 	 	 After Matching
+mean treatment........          0 	 	          0 
+mean control..........    0.05471 	 	          0 
+std mean diff.........       -Inf 	 	          0 
+
+mean raw eQQ diff.....   0.054858 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.027355 	 	          0 
+med  eCDF diff........   0.027355 	 	          0 
+max  eCDF diff........    0.05471 	 	          0 
+
+var ratio (Tr/Co).....          0 	 	        NaN 
+T-test p-value........ < 2.22e-16 	 	          1 
+
+
+***** (V13) REGION33 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.13679 	 	   0.090265 
+mean control..........   0.095859 	 	   0.090265 
+std mean diff.........      11.91 	 	          0 
+
+mean raw eQQ diff.....   0.040878 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.020465 	 	          0 
+med  eCDF diff........   0.020465 	 	          0 
+max  eCDF diff........    0.04093 	 	          0 
+
+var ratio (Tr/Co).....     1.3626 	 	          1 
+T-test p-value........ < 2.22e-16 	 	          1 
+
+
+***** (V14) REGION41 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.49566 	 	    0.18584 
+mean control..........   0.039095 	 	    0.18584 
+std mean diff.........     91.309 	 	          0 
+
+mean raw eQQ diff.....    0.45656 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........    0.22828 	 	          0 
+med  eCDF diff........    0.22828 	 	          0 
+max  eCDF diff........    0.45657 	 	          0 
+
+var ratio (Tr/Co).....     6.6554 	 	          1 
+T-test p-value........ < 2.22e-16 	 	          1 
+
+
+***** (V15) REGION42 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.049372 	 	   0.061947 
+mean control..........    0.19747 	 	   0.061947 
+std mean diff.........    -68.353 	 	          0 
+
+mean raw eQQ diff.....    0.14812 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.074047 	 	          0 
+med  eCDF diff........   0.074047 	 	          0 
+max  eCDF diff........    0.14809 	 	          0 
+
+var ratio (Tr/Co).....    0.29621 	 	          1 
+T-test p-value........ < 2.22e-16 	 	          1 
+
+
+***** (V16) METRO2 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.11131 	 	  0.0035398 
+mean control..........    0.10773 	 	  0.0035398 
+std mean diff.........     1.1382 	 	          0 
+
+mean raw eQQ diff.....  0.0035392 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0017901 	 	          0 
+med  eCDF diff........  0.0017901 	 	          0 
+max  eCDF diff........  0.0035802 	 	          0 
+
+var ratio (Tr/Co).....     1.0293 	 	          1 
+T-test p-value........    0.40561 	 	          1 
+
+
+***** (V17) METRO3 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.30402 	 	    0.41947 
+mean control..........    0.37072 	 	    0.41947 
+std mean diff.........    -14.499 	 	          0 
+
+mean raw eQQ diff.....   0.066714 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.033351 	 	          0 
+med  eCDF diff........   0.033351 	 	          0 
+max  eCDF diff........   0.066701 	 	          0 
+
+var ratio (Tr/Co).....    0.90715 	 	          1 
+T-test p-value........ < 2.22e-16 	 	          1 
+
+
+***** (V18) METRO4 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.42523 	 	    0.40177 
+mean control..........    0.37805 	 	    0.40177 
+std mean diff.........     9.5429 	 	          0 
+
+mean raw eQQ diff.....   0.047248 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.023591 	 	          0 
+med  eCDF diff........   0.023591 	 	          0 
+max  eCDF diff........   0.047182 	 	          0 
+
+var ratio (Tr/Co).....     1.0396 	 	          1 
+T-test p-value........ 3.3751e-12 	 	          1 
+
+
+***** (V19) RELATE2 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.35781 	 	    0.46903 
+mean control..........    0.36791 	 	    0.46903 
+std mean diff.........    -2.1059 	 	          0 
+
+mean raw eQQ diff.....   0.010087 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0050478 	 	          0 
+med  eCDF diff........  0.0050478 	 	          0 
+max  eCDF diff........   0.010096 	 	          0 
+
+var ratio (Tr/Co).....    0.98826 	 	          1 
+T-test p-value........    0.12435 	 	          1 
+
+
+***** (V20) RELATE3 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.03026 	 	          0 
+mean control..........   0.028175 	 	          0 
+std mean diff.........     1.2174 	 	          0 
+
+mean raw eQQ diff.....  0.0019466 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0010428 	 	          0 
+med  eCDF diff........  0.0010428 	 	          0 
+max  eCDF diff........  0.0020856 	 	          0 
+
+var ratio (Tr/Co).....     1.0719 	 	        NaN 
+T-test p-value........    0.37324 	 	          1 
+
+
+***** (V21) RELATE4 *****
+                       Before Matching 	 	 After Matching
+mean treatment........  0.0063706 	 	          0 
+mean control..........  0.0081746 	 	          0 
+std mean diff.........    -2.2672 	 	          0 
+
+mean raw eQQ diff.....  0.0019466 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.000902 	 	          0 
+med  eCDF diff........   0.000902 	 	          0 
+max  eCDF diff........   0.001804 	 	          0 
+
+var ratio (Tr/Co).....    0.78086 	 	        NaN 
+T-test p-value........    0.10058 	 	          1 
+
+
+***** (V22) RELATE5 *****
+                       Before Matching 	 	 After Matching
+mean treatment........  0.0053088 	 	          0 
+mean control..........  0.0048536 	 	          0 
+std mean diff.........    0.62629 	 	          0 
+
+mean raw eQQ diff..... 0.00035392 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........ 0.00022757 	 	          0 
+med  eCDF diff........ 0.00022757 	 	          0 
+max  eCDF diff........ 0.00045515 	 	          0 
+
+var ratio (Tr/Co).....     1.0935 	 	        NaN 
+T-test p-value........    0.64671 	 	          1 
+
+
+***** (V23) RELATE6 *****
+                       Before Matching 	 	 After Matching
+mean treatment........ 0.00035392 	 	          0 
+mean control..........  0.0011176 	 	          0 
+std mean diff.........    -4.0598 	 	          0 
+
+mean raw eQQ diff.....  0.0008848 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........ 0.00038185 	 	          0 
+med  eCDF diff........ 0.00038185 	 	          0 
+max  eCDF diff........  0.0007637 	 	          0 
+
+var ratio (Tr/Co).....    0.31697 	 	        NaN 
+T-test p-value........  0.0051552 	 	          1 
+
+
+***** (V24) RELATE7 *****
+                       Before Matching 	 	 After Matching
+mean treatment........  0.0051318 	 	          0 
+mean control..........   0.004992 	 	          0 
+std mean diff.........    0.19566 	 	          0 
+
+mean raw eQQ diff.....          0 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          0 	 	          0 
+
+mean eCDF diff........ 6.9909e-05 	 	          0 
+med  eCDF diff........ 6.9909e-05 	 	          0 
+max  eCDF diff........ 0.00013982 	 	          0 
+
+var ratio (Tr/Co).....      1.028 	 	        NaN 
+T-test p-value........    0.88632 	 	          1 
+
+
+***** (V25) RELATE8 *****
+                       Before Matching 	 	 After Matching
+mean treatment........  0.0010618 	 	          0 
+mean control..........  0.0015221 	 	          0 
+std mean diff.........    -1.4133 	 	          0 
+
+mean raw eQQ diff..... 0.00053088 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........ 0.00023016 	 	          0 
+med  eCDF diff........ 0.00023016 	 	          0 
+max  eCDF diff........ 0.00046033 	 	          0 
+
+var ratio (Tr/Co).....    0.69801 	 	        NaN 
+T-test p-value........    0.30803 	 	          1 
+
+
+***** (V26) RELATE9 *****
+                       Before Matching 	 	 After Matching
+mean treatment........  0.0014157 	 	          0 
+mean control..........  0.0013731 	 	          0 
+std mean diff.........    0.11331 	 	          0 
+
+mean raw eQQ diff.....          0 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          0 	 	          0 
+
+mean eCDF diff........ 2.1304e-05 	 	          0 
+med  eCDF diff........ 2.1304e-05 	 	          0 
+max  eCDF diff........ 4.2608e-05 	 	          0 
+
+var ratio (Tr/Co).....     1.0312 	 	        NaN 
+T-test p-value........    0.93401 	 	          1 
+
+
+***** (V27) RELATE10 *****
+                       Before Matching 	 	 After Matching
+mean treatment........  0.0040701 	 	          0 
+mean control..........  0.0035232 	 	          0 
+std mean diff.........    0.85896 	 	          0 
+
+mean raw eQQ diff..... 0.00053088 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........ 0.00027346 	 	          0 
+med  eCDF diff........ 0.00027346 	 	          0 
+max  eCDF diff........ 0.00054693 	 	          0 
+
+var ratio (Tr/Co).....     1.1548 	 	        NaN 
+T-test p-value........    0.52903 	 	          1 
+
+
+***** (V28) RELATE11 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.021235 	 	          0 
+mean control..........   0.020032 	 	          0 
+std mean diff.........    0.83454 	 	          0 
+
+mean raw eQQ diff.....  0.0010618 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........ 0.00060162 	 	          0 
+med  eCDF diff........ 0.00060162 	 	          0 
+max  eCDF diff........  0.0012032 	 	          0 
+
+var ratio (Tr/Co).....     1.0589 	 	        NaN 
+T-test p-value........    0.54171 	 	          1 
+
+
+***** (V29) RELATE12 *****
+                       Before Matching 	 	 After Matching
+mean treatment........  0.0081402 	 	          0 
+mean control..........  0.0077701 	 	          0 
+std mean diff.........    0.41181 	 	          0 
+
+mean raw eQQ diff..... 0.00035392 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........ 0.00018503 	 	          0 
+med  eCDF diff........ 0.00018503 	 	          0 
+max  eCDF diff........ 0.00037006 	 	          0 
+
+var ratio (Tr/Co).....     1.0474 	 	        NaN 
+T-test p-value........    0.76339 	 	          1 
+
+
+***** (V30) RELATE13 *****
+                       Before Matching 	 	 After Matching
+mean treatment........          0 	 	          0 
+mean control..........          0 	 	          0 
+std mean diff.........          0 	 	          0 
+
+mean raw eQQ diff.....          0 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          0 	 	          0 
+
+mean eCDF diff........          0 	 	          0 
+med  eCDF diff........          0 	 	          0 
+max  eCDF diff........          0 	 	          0 
+
+var ratio (Tr/Co).....        NaN 	 	        NaN 
+T-test p-value........          1 	 	          1 
+
+
+***** (V31) GQ *****
+                       Before Matching 	 	 After Matching
+mean treatment........     1.0122 	 	          1 
+mean control..........     1.0093 	 	          1 
+std mean diff.........     1.5277 	 	          0 
+
+mean raw eQQ diff.....  0.0026544 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          3 	 	          0 
+
+mean eCDF diff........ 0.00063648 	 	          0 
+med  eCDF diff........ 0.00094342 	 	          0 
+max  eCDF diff........ 0.00096603 	 	          0 
+
+var ratio (Tr/Co).....     1.3214 	 	        NaN 
+T-test p-value........    0.26141 	 	          1 
+KS Bootstrap p-value..      0.282 	 	          1 
+KS Naive p-value......          1 	 	          1 
+KS Statistic.......... 0.00096603 	 	          0 
+
+
+***** (V32) AGE *****
+                       Before Matching 	 	 After Matching
+mean treatment........     47.019 	 	     48.818 
+mean control..........     47.354 	 	     48.818 
+std mean diff.........    -2.5255 	 	          0 
+
+mean raw eQQ diff.....    0.35516 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          7 	 	          0 
+
+mean eCDF diff........  0.0044813 	 	          0 
+med  eCDF diff........  0.0021357 	 	          0 
+max  eCDF diff........   0.018609 	 	          0 
+
+var ratio (Tr/Co).....      1.013 	 	          1 
+T-test p-value........   0.065151 	 	          1 
+KS Bootstrap p-value..      0.022 	 	          1 
+KS Naive p-value......   0.049851 	 	          1 
+KS Statistic..........   0.018609 	 	          0 
+
+
+***** (V33) MARST2 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.02442 	 	          0 
+mean control..........   0.025365 	 	          0 
+std mean diff.........    -0.6116 	 	          0 
+
+mean raw eQQ diff.....  0.0010618 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........ 0.00047205 	 	          0 
+med  eCDF diff........ 0.00047205 	 	          0 
+max  eCDF diff........  0.0009441 	 	          0 
+
+var ratio (Tr/Co).....    0.96387 	 	        NaN 
+T-test p-value........    0.65557 	 	          1 
+
+
+***** (V34) MARST3 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.023536 	 	          0 
+mean control..........   0.028185 	 	          0 
+std mean diff.........    -3.0668 	 	          0 
+
+mean raw eQQ diff.....  0.0047779 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0023248 	 	          0 
+med  eCDF diff........  0.0023248 	 	          0 
+max  eCDF diff........  0.0046495 	 	          0 
+
+var ratio (Tr/Co).....    0.83917 	 	        NaN 
+T-test p-value........   0.025984 	 	          1 
+
+
+***** (V35) MARST4 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.17024 	 	   0.072566 
+mean control..........    0.14712 	 	   0.072566 
+std mean diff.........     6.1496 	 	          0 
+
+mean raw eQQ diff.....   0.023005 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.011557 	 	          0 
+med  eCDF diff........   0.011557 	 	          0 
+max  eCDF diff........   0.023115 	 	          0 
+
+var ratio (Tr/Co).....     1.1259 	 	          1 
+T-test p-value........ 6.7869e-06 	 	          1 
+
+
+***** (V36) MARST5 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.03203 	 	  0.0035398 
+mean control..........   0.032049 	 	  0.0035398 
+std mean diff.........  -0.010922 	 	          0 
+
+mean raw eQQ diff..... 0.00017696 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........ 9.6165e-06 	 	          0 
+med  eCDF diff........ 9.6165e-06 	 	          0 
+max  eCDF diff........ 1.9233e-05 	 	          0 
+
+var ratio (Tr/Co).....    0.99959 	 	          1 
+T-test p-value........    0.99364 	 	          1 
+
+
+***** (V37) MARRINYR2 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.044771 	 	  0.0035398 
+mean control..........   0.039915 	 	  0.0035398 
+std mean diff.........     2.3479 	 	          0 
+
+mean raw eQQ diff.....  0.0047779 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.002428 	 	          0 
+med  eCDF diff........   0.002428 	 	          0 
+max  eCDF diff........   0.004856 	 	          0 
+
+var ratio (Tr/Co).....     1.1162 	 	          1 
+T-test p-value........   0.085608 	 	          1 
+
+
+***** (V38) DIVINYR2 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.015749 	 	  0.0035398 
+mean control..........    0.01372 	 	  0.0035398 
+std mean diff.........     1.6298 	 	          0 
+
+mean raw eQQ diff.....  0.0019466 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0010147 	 	          0 
+med  eCDF diff........  0.0010147 	 	          0 
+max  eCDF diff........  0.0020294 	 	          0 
+
+var ratio (Tr/Co).....     1.1457 	 	          1 
+T-test p-value........    0.23243 	 	          1 
+
+
+***** (V39) WIDINYR2 *****
+                       Before Matching 	 	 After Matching
+mean treatment........  0.0049549 	 	  0.0035398 
+mean control..........  0.0063651 	 	  0.0035398 
+std mean diff.........    -2.0082 	 	          0 
+
+mean raw eQQ diff.....  0.0014157 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........ 0.00070511 	 	          0 
+med  eCDF diff........ 0.00070511 	 	          0 
+max  eCDF diff........  0.0014102 	 	          0 
+
+var ratio (Tr/Co).....    0.77968 	 	          1 
+T-test p-value........    0.14584 	 	          1 
+
+
+***** (V40) FERTYR1 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.28632 	 	    0.25133 
+mean control..........    0.26534 	 	    0.25133 
+std mean diff.........     4.6403 	 	          0 
+
+mean raw eQQ diff.....   0.020881 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.010489 	 	          0 
+med  eCDF diff........   0.010489 	 	          0 
+max  eCDF diff........   0.020978 	 	          0 
+
+var ratio (Tr/Co).....     1.0484 	 	          1 
+T-test p-value........  0.0006974 	 	          1 
+
+
+***** (V41) FERTYR2 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.092019 	 	   0.063717 
+mean control..........     0.1129 	 	   0.063717 
+std mean diff.........    -7.2234 	 	          0 
+
+mean raw eQQ diff.....   0.020881 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.010441 	 	          0 
+med  eCDF diff........   0.010441 	 	          0 
+max  eCDF diff........   0.020881 	 	          0 
+
+var ratio (Tr/Co).....    0.83437 	 	          1 
+T-test p-value........ 1.6181e-07 	 	          1 
+
+
+***** (V42) FERTYR8 *****
+                       Before Matching 	 	 After Matching
+mean treatment........          0 	 	          0 
+mean control..........  0.0014582 	 	          0 
+std mean diff.........       -Inf 	 	          0 
+
+mean raw eQQ diff.....  0.0015926 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........ 0.00072911 	 	          0 
+med  eCDF diff........ 0.00072911 	 	          0 
+max  eCDF diff........  0.0014582 	 	          0 
+
+var ratio (Tr/Co).....          0 	 	        NaN 
+T-test p-value........ < 2.22e-16 	 	          1 
+
+
+***** (V43) RACE2 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.050787 	 	   0.010619 
+mean control..........    0.10676 	 	   0.010619 
+std mean diff.........     -25.49 	 	          0 
+
+mean raw eQQ diff.....   0.056096 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.027986 	 	          0 
+med  eCDF diff........   0.027986 	 	          0 
+max  eCDF diff........   0.055971 	 	          0 
+
+var ratio (Tr/Co).....    0.50561 	 	          1 
+T-test p-value........ < 2.22e-16 	 	          1 
+
+
+***** (V44) RACE3 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.016634 	 	          0 
+mean control..........  0.0065567 	 	          0 
+std mean diff.........     7.8788 	 	          0 
+
+mean raw eQQ diff.....   0.010087 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0050388 	 	          0 
+med  eCDF diff........  0.0050388 	 	          0 
+max  eCDF diff........   0.010078 	 	          0 
+
+var ratio (Tr/Co).....     2.5117 	 	        NaN 
+T-test p-value........ 5.0854e-09 	 	          1 
+
+
+***** (V45) RACE4 *****
+                       Before Matching 	 	 After Matching
+mean treatment........  0.0060166 	 	          0 
+mean control..........   0.018968 	 	          0 
+std mean diff.........    -16.745 	 	          0 
+
+mean raw eQQ diff.....   0.013095 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0064755 	 	          0 
+med  eCDF diff........  0.0064755 	 	          0 
+max  eCDF diff........   0.012951 	 	          0 
+
+var ratio (Tr/Co).....    0.32145 	 	        NaN 
+T-test p-value........ < 2.22e-16 	 	          1 
+
+
+***** (V46) RACE5 *****
+                       Before Matching 	 	 After Matching
+mean treatment........  0.0015926 	 	          0 
+mean control..........  0.0038957 	 	          0 
+std mean diff.........     -5.775 	 	          0 
+
+mean raw eQQ diff.....  0.0023005 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0011515 	 	          0 
+med  eCDF diff........  0.0011515 	 	          0 
+max  eCDF diff........  0.0023031 	 	          0 
+
+var ratio (Tr/Co).....    0.40983 	 	        NaN 
+T-test p-value........ 5.0875e-05 	 	          1 
+
+
+***** (V47) RACE6 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.037162 	 	          0 
+mean control..........   0.059447 	 	          0 
+std mean diff.........     -11.78 	 	          0 
+
+mean raw eQQ diff.....   0.022297 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.011142 	 	          0 
+med  eCDF diff........   0.011142 	 	          0 
+max  eCDF diff........   0.022285 	 	          0 
+
+var ratio (Tr/Co).....    0.64004 	 	        NaN 
+T-test p-value........ < 2.22e-16 	 	          1 
+
+
+***** (V48) HISPAN1 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.15785 	 	   0.014159 
+mean control..........   0.052187 	 	   0.014159 
+std mean diff.........     28.977 	 	          0 
+
+mean raw eQQ diff.....    0.10565 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........    0.05283 	 	          0 
+med  eCDF diff........    0.05283 	 	          0 
+max  eCDF diff........    0.10566 	 	          0 
+
+var ratio (Tr/Co).....     2.6879 	 	          1 
+T-test p-value........ < 2.22e-16 	 	          1 
+
+
+***** (V49) HISPAN2 *****
+                       Before Matching 	 	 After Matching
+mean treatment........  0.0051318 	 	          0 
+mean control..........  0.0095263 	 	          0 
+std mean diff.........    -6.1497 	 	          0 
+
+mean raw eQQ diff.....   0.004424 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0021973 	 	          0 
+med  eCDF diff........  0.0021973 	 	          0 
+max  eCDF diff........  0.0043945 	 	          0 
+
+var ratio (Tr/Co).....    0.54118 	 	        NaN 
+T-test p-value........ 1.1736e-05 	 	          1 
+
+
+***** (V50) HISPAN3 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.020173 	 	          0 
+mean control..........  0.0051623 	 	          0 
+std mean diff.........     10.676 	 	          0 
+
+mean raw eQQ diff.....   0.014865 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0075056 	 	          0 
+med  eCDF diff........  0.0075056 	 	          0 
+max  eCDF diff........   0.015011 	 	          0 
+
+var ratio (Tr/Co).....     3.8495 	 	        NaN 
+T-test p-value........ 1.9984e-15 	 	          1 
+
+
+***** (V51) HISPAN4 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.029021 	 	          0 
+mean control..........   0.025279 	 	          0 
+std mean diff.........      2.229 	 	          0 
+
+mean raw eQQ diff.....  0.0037162 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.001871 	 	          0 
+med  eCDF diff........   0.001871 	 	          0 
+max  eCDF diff........   0.003742 	 	          0 
+
+var ratio (Tr/Co).....     1.1438 	 	        NaN 
+T-test p-value........    0.10248 	 	          1 
+
+
+***** (V52) SPEAKENG3 *****
+                       Before Matching 	 	 After Matching
+mean treatment........     0.7519 	 	    0.99292 
+mean control..........     0.8072 	 	    0.99292 
+std mean diff.........    -12.801 	 	          0 
+
+mean raw eQQ diff.....   0.055211 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.027646 	 	          0 
+med  eCDF diff........   0.027646 	 	          0 
+max  eCDF diff........   0.055293 	 	          0 
+
+var ratio (Tr/Co).....     1.1988 	 	          1 
+T-test p-value........ < 2.22e-16 	 	          1 
+
+
+***** (V53) SPEAKENG4 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.16086 	 	  0.0035398 
+mean control..........    0.12191 	 	  0.0035398 
+std mean diff.........     10.601 	 	          0 
+
+mean raw eQQ diff.....   0.038931 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.019476 	 	          0 
+med  eCDF diff........   0.019476 	 	          0 
+max  eCDF diff........   0.038951 	 	          0 
+
+var ratio (Tr/Co).....     1.2612 	 	          1 
+T-test p-value........ 7.9936e-15 	 	          1 
+
+
+***** (V54) SPEAKENG5 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.054504 	 	  0.0035398 
+mean control..........   0.045524 	 	  0.0035398 
+std mean diff.........     3.9552 	 	          0 
+
+mean raw eQQ diff.....   0.008848 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0044897 	 	          0 
+med  eCDF diff........  0.0044897 	 	          0 
+max  eCDF diff........  0.0089794 	 	          0 
+
+var ratio (Tr/Co).....     1.1862 	 	          1 
+T-test p-value........  0.0037375 	 	          1 
+
+
+***** (V55) SPEAKENG6 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.027075 	 	          0 
+mean control..........   0.021575 	 	          0 
+std mean diff.........     3.3882 	 	          0 
+
+mean raw eQQ diff.....  0.0054858 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0027498 	 	          0 
+med  eCDF diff........  0.0027498 	 	          0 
+max  eCDF diff........  0.0054995 	 	          0 
+
+var ratio (Tr/Co).....     1.2481 	 	        NaN 
+T-test p-value........   0.012881 	 	          1 
+
+
+***** (V56) EDUC *****
+                       Before Matching 	 	 After Matching
+mean treatment........     7.9439 	 	     7.9186 
+mean control..........     8.1323 	 	     8.3168 
+std mean diff.........    -9.0317 	 	    -19.434 
+
+mean raw eQQ diff.....    0.18811 	 	    0.39823 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          2 	 	          2 
+
+mean eCDF diff........   0.018021 	 	   0.040265 
+med  eCDF diff........   0.011209 	 	   0.037168 
+max  eCDF diff........   0.044236 	 	   0.077876 
+
+var ratio (Tr/Co).....    0.96877 	 	     1.0017 
+T-test p-value........ 4.8151e-11 	 	 0.00064432 
+KS Bootstrap p-value.. < 2.22e-16 	 	      0.016 
+KS Naive p-value...... 1.7425e-09 	 	   0.064996 
+KS Statistic..........   0.044236 	 	   0.077876 
+
+
+***** (V57) UHRSWORK *****
+                       Before Matching 	 	 After Matching
+mean treatment........     38.108 	 	     40.025 
+mean control..........     37.373 	 	     39.573 
+std mean diff.........     5.6941 	 	      4.033 
+
+mean raw eQQ diff.....     0.7358 	 	    0.80177 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....         10 	 	         10 
+
+mean eCDF diff........  0.0075101 	 	   0.012316 
+med  eCDF diff........  0.0063073 	 	  0.0088496 
+max  eCDF diff........   0.023705 	 	   0.035398 
+
+var ratio (Tr/Co).....     1.0264 	 	    0.99363 
+T-test p-value........ 3.2212e-05 	 	     0.4287 
+KS Bootstrap p-value..      0.004 	 	       0.55 
+KS Naive p-value......  0.0050054 	 	    0.87088 
+KS Statistic..........   0.023705 	 	   0.035398 
+
+
+***** (V58) EMPSTAT2 *****
+                       Before Matching 	 	 After Matching
+mean treatment........  0.0021235 	 	          0 
+mean control..........  0.0028845 	 	          0 
+std mean diff.........     -1.653 	 	          0 
+
+mean raw eQQ diff.....  0.0008848 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0003805 	 	          0 
+med  eCDF diff........  0.0003805 	 	          0 
+max  eCDF diff........   0.000761 	 	          0 
+
+var ratio (Tr/Co).....    0.73686 	 	        NaN 
+T-test p-value........     0.2322 	 	          1 
+
+
+***** (V59) EMPSTAT3 *****
+                       Before Matching 	 	 After Matching
+mean treatment........          0 	 	          0 
+mean control..........          0 	 	          0 
+std mean diff.........          0 	 	          0 
+
+mean raw eQQ diff.....          0 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          0 	 	          0 
+
+mean eCDF diff........          0 	 	          0 
+med  eCDF diff........          0 	 	          0 
+max  eCDF diff........          0 	 	          0 
+
+var ratio (Tr/Co).....        NaN 	 	        NaN 
+T-test p-value........          1 	 	          1 
+
+
+***** (V60) WKSWORK21 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.044063 	 	          0 
+mean control..........   0.044513 	 	          0 
+std mean diff.........   -0.21926 	 	          0 
+
+mean raw eQQ diff..... 0.00053088 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........ 0.00022502 	 	          0 
+med  eCDF diff........ 0.00022502 	 	          0 
+max  eCDF diff........ 0.00045004 	 	          0 
+
+var ratio (Tr/Co).....    0.99052 	 	        NaN 
+T-test p-value........    0.87286 	 	          1 
+
+
+***** (V61) WKSWORK22 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.052026 	 	  0.0035398 
+mean control..........   0.056434 	 	  0.0035398 
+std mean diff.........    -1.9847 	 	          0 
+
+mean raw eQQ diff.....   0.004424 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........   0.002204 	 	          0 
+med  eCDF diff........   0.002204 	 	          0 
+max  eCDF diff........  0.0044081 	 	          0 
+
+var ratio (Tr/Co).....    0.92635 	 	          1 
+T-test p-value........    0.14829 	 	          1 
+
+
+***** (V62) WKSWORK23 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.11396 	 	   0.031858 
+mean control..........    0.10677 	 	   0.031858 
+std mean diff.........     2.2633 	 	          0 
+
+mean raw eQQ diff.....  0.0070784 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0035963 	 	          0 
+med  eCDF diff........  0.0035963 	 	          0 
+max  eCDF diff........  0.0071926 	 	          0 
+
+var ratio (Tr/Co).....     1.0589 	 	          1 
+T-test p-value........   0.097968 	 	          1 
+
+
+***** (V63) WKSWORK24 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.12051 	 	   0.072566 
+mean control..........    0.12935 	 	   0.072566 
+std mean diff.........    -2.7138 	 	          0 
+
+mean raw eQQ diff.....   0.008848 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0044179 	 	          0 
+med  eCDF diff........  0.0044179 	 	          0 
+max  eCDF diff........  0.0088358 	 	          0 
+
+var ratio (Tr/Co).....     0.9413 	 	          1 
+T-test p-value........    0.04799 	 	          1 
+
+
+***** (V64) WKSWORK25 *****
+                       Before Matching 	 	 After Matching
+mean treatment........   0.036454 	 	  0.0035398 
+mean control..........   0.032911 	 	  0.0035398 
+std mean diff.........     1.8901 	 	          0 
+
+mean raw eQQ diff.....  0.0035392 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0017713 	 	          0 
+med  eCDF diff........  0.0017713 	 	          0 
+max  eCDF diff........  0.0035426 	 	          0 
+
+var ratio (Tr/Co).....     1.1038 	 	          1 
+T-test p-value........    0.16652 	 	          1 
+
+
+***** (V65) WKSWORK26 *****
+                       Before Matching 	 	 After Matching
+mean treatment........    0.63299 	 	     0.8885 
+mean control..........    0.63003 	 	     0.8885 
+std mean diff.........     0.6138 	 	          0 
+
+mean raw eQQ diff.....  0.0030083 	 	          0 
+med  raw eQQ diff.....          0 	 	          0 
+max  raw eQQ diff.....          1 	 	          0 
+
+mean eCDF diff........  0.0014794 	 	          0 
+med  eCDF diff........  0.0014794 	 	          0 
+max  eCDF diff........  0.0029587 	 	          0 
+
+var ratio (Tr/Co).....    0.99683 	 	          1 
+T-test p-value........     0.6541 	 	          1 
+
+
+Before Matching Minimum p.value: < 2.22e-16 
+Variable Name(s): REGION12 REGION31 REGION32 REGION33 REGION41 REGION42 METRO3 FERTYR8 RACE2 RACE4 RACE6 HISPAN1 SPEAKENG3 EDUC  Number(s): 8 11 12 13 14 15 17 42 43 45 47 48 52 56 
+
+After Matching Minimum p.value: 0.00064432 
+Variable Name(s): EDUC  Number(s): 56 
+

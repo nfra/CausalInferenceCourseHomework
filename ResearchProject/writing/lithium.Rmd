@@ -12,7 +12,7 @@ Lithium in groundwater is correlated with lower rates of suicide. I investigate 
 
 ## Introduction
 
-Lithium has been used as a treatment for bipolar disorder for over sixty years. A growing corpus has found correlative evidence that its presence in areas' groundwater (in much lower concentrations than those used psychiatrically) is associated with decreased rates of suicide in those areas [@barjastehaskari2020]. If truly present, the mechanism for this is unknown, though it is hypothesized that lithium may have a mood-regulating effect that tempers people's strongest emotional responses. If this hypothesis is true, the ingestion of trace amounts of lithium may also prevent the occurence of other events caused by heightened emotional responses, such as being fired or missing work for mental health reasons.
+Lithium has been used as a treatment for bipolar disorder for over sixty years. A growing corpus has found correlative evidence that its presence in areas' groundwater (in much lower concentrations than those used psychiatrically) is associated with decreased rates of suicide in those areas [@barjastehaskari2020]. If truly present, the mechanism for this is unknown, though it is hypothesized that lithium may have an emotion-regulating effect that reduces relapse of mood disorders [@vita2014]. If this hypothesis is true, the ingestion of trace amounts of lithium may also prevent the occurrence of other events caused by heightened emotional responses, such as being fired or missing work for mental health reasons.
 
 In this project, I estimate the causal relationship of lithium in groundwater on labor market outcomes plausibly affected by the purported emotion-regulating effects of lithium.
 
@@ -23,11 +23,11 @@ In this project, I estimate the causal relationship of lithium in groundwater on
 
 I linked data from three sources.
 
-This project requires average lithium concentrations at the level of Public-Use Microdata Areas (PUMAs). I used geospatial vector data to define the boundaries of these areas: the US Census Bureau's county shapefiles for counties and IPUMS-USA GIS Boundary Files for PUMAs. For lithium concentrations in groundwater, I used data from the United States Geological Survey (USGS) Water Quality Portal from 1995 to present. It includes almost 100,000 lithium measurements in 2040 out of 3142 counties and 1573 out of 2351 PUMAs. For the outcome variables and the covariates used for the matching procedure, I used the IPUMS American Community Survey (ACS) data. I selected the yearly samples between the years 2011 and 2018. The data is limited to these samples because these are the samples for which the variable recording a consistent PUMA of residence is available. The subset of the data that had responses for each of the covariates used for matching contained over 8,000,000 observations.
+This project requires average lithium concentrations at the level of Public-Use Microdata Areas (PUMAs). I used geospatial vector data to define the boundaries of these areas: IPUMS-USA GIS Boundary Files for PUMAs. For lithium concentrations in groundwater, I used data from the United States Geological Survey (USGS) Water Quality Portal from 1995 to present. It includes almost 100,000 lithium measurements in 2040 out of 3142 counties and 1573 out of 2351 PUMAs. For the outcome variables and the covariates used for the matching procedure, I used the IPUMS American Community Survey (ACS) data. I selected the yearly samples between the years 2011 and 2018. The data is limited to these samples because these are the samples for which the variable recording a consistent PUMA of residence is available. The subset of the data that had responses for each of the covariates used for matching contained over 8,000,000 observations.
 
 ### Lithium Level Interpolation
 
-The measurements taken at each site are not identical. Consequently, I used the average measurement at each site when calculating average lithium level in groundwater for a county or PUMA to avoid excessively weighting sites at which more measurements happen to be taken. To arrive at an average exposure per county or PUMA, I generated a grid of points over the entirety of the United States and used a modification of Shepard’s method of inverse distance weighting (IDW) to interpolate the lithium level at each of those points [@desmith2018]. The formula for the interpolated lithium value $z_j$ at grid-point $j$ is given by $$z_{j} = \Bigg(\sum_{i=1}^n\Big(\frac{R-d_{ij}}{R \cdot d_{ij}}\Big)^2 \Bigg)^{-1} \cdot \sum_{i=1}^n z_i\Big(\frac{R-d_{ij}}{R \cdot d_{ij}}\Big)^2,$$ where $i$ corresponds to one of the $n$ lithium measurement sites within 100 kilometers of grid-point $j$, $d_{ij}$ is the distance between grid-point $j$ and measurement site $i$, amd $R$ is the maximum distance between grid-point $j$ and any of the set of measurement sites within 100 kilometers.
+The measurements taken at each site are not identical. Consequently, I used the average measurement at each site when calculating average lithium level in groundwater for a county or PUMA to avoid excessively weighting sites at which more measurements happen to be taken. To arrive at an average exposure per county or PUMA, I generated a grid of points over the entirety of the United States and used a modification of Shepard’s method of inverse distance weighting (IDW) to interpolate the lithium level at each of those points [@desmith2018]. The formula for the interpolated lithium value $z_j$ at grid-point $j$ is given by $$z_{j} = \Bigg(\sum_{i=1}^n\Big(\frac{R-d_{ij}}{R \cdot d_{ij}}\Big)^2 \Bigg)^{-1} \cdot \sum_{i=1}^n z_i\Big(\frac{R-d_{ij}}{R \cdot d_{ij}}\Big)^2,$$ where $i$ corresponds to one of the $n$ lithium measurement sites within 100 kilometers of grid-point $j$, $d_{ij}$ is the distance between grid-point $j$ and measurement site $i$, and $R$ is the maximum distance between grid-point $j$ and any of the set of measurement sites within 100 kilometers.
 
 This interpolation procedure deserves some scrutiny, since it ignores the geohydrological processes by which lithium enters and spreads through an area's groundwater. Though there is no theoretical basis for the use of IDW to interpolate trace concentrations of substances in groundwater, more rigorously estimating the lithium levels in groundwater across the entirety of the United States is infeasible given the time constraints on this project and my utter lack of expertise in this area. Moreover, this procedure is used by the professional software package Groundwater Modeling System [@desmith2018], which indicates that its accuracy may be sufficient for aggregation at the county- or PUMA-level. Collaboration with a specialist in groundwater hydrology might assist in the quantification of uncertainty associated with and inaccuracy introduced by this interpolation method.
 
@@ -106,7 +106,7 @@ ggplot(data = pumas) +
   geom_histogram(aes(x = lithium_value), binwidth = 5)
 ```
 
-@mauer2014, @mischley2014, @vita2014, and @barjastehaskari2020 emphasize that increased lithium levels are (at least tentatively) negatively correlated with incidence of suicide but neither they nor the papers they review give much guidance as to what levels count as "elevated". However, one exception is @schrauzer1990, who suggest that a lithium concentration greater than 70 mcg/L is a high level. 
+@mauer2014, @mischley2014, @vita2014, and @barjastehaskari2020 emphasize that increased lithium levels have been repeatedly shown to be negatively correlated with incidence of suicide, but neither they nor the papers they review give much guidance as to what levels count as "elevated". However, one exception is @schrauzer1990, who suggest that a lithium concentration greater than 70 mcg/L is a high level. 
 
 With 70 mcg/L as the cutoff level for inclusion into the treatment group, the treatment map is presented below.
 
@@ -118,17 +118,24 @@ ggplot(data = pumas) +
   geom_sf(aes(fill = treatment_value, color = treatment_value))
 ```
 
-
 ## Results
 
-### Estimates of the Effects of High Lithium Exposure
+### Estimates of the Average Treatment Effects of High Lithium Exposure
 
-Using the `Matching` package [@sekhon2011], I find the results presented in Table 1 from one-to-one exact matching on observables.
+Using the `Matching` package [@sekhon2011] to estimate the average treatment effect (ATE) of high lithium levels, I find the results presented in Table 1 from one-to-one exact matching on observables. Due to computational constraints, I was forced to use only a subset of the data available for three of the outcomes: employment status, labor force participation, and having worked in the previous year. Moreover, the calculation of Abadie-Imbens standard errors was computationally infeasible as well, so a naive standard error is presented.
 
-```{r results_table, results='asis', warning=F}
-results_df = read.csv('../data/match_results_table.csv')
+```{r results_table_setup, echo=F, warning=F}
+results_df = read.csv('../data/results/match_results_table.csv', colClasses = rep("character", 6))[,2:7]
 
-kable(results_df, 'latex', caption = "test", booktabs = TRUE)
+results_df[1,6] = -0.0082411
+results_df[2,6] = 0.00090988
+results_df[3,6] = -9.0573
+colnames(results_df) = c(' ', "Employment Status", "Lab. Force Part.",  "Looked for Work", "Worked Last Week", "Worked Last Year")
+```
+
+```{r results_table, results='asis', echo=F, warning=F}
+kableExtra::kable(results_df, 'latex', caption = "ATEs for Five Labor Outcomes, Average PUMA Lithium Exposure >70mcg", booktabs = TRUE) %>%
+  kableExtra::landscape()
 ```
 
 Thus, I estimate that living in a high-lithium PUMA causes 
@@ -139,9 +146,31 @@ Thus, I estimate that living in a high-lithium PUMA causes
 * no significant effect on the rate of missing the previous week of work among wage-workers who were not laid off, and
 * a significant decrease in the rate of working the previous year of 0.40% (since the reported estimate is twice the probability since the binary variable is coded as 0 and 2 in this case).
 
-These are not the results I was expecting. They do, however, suggest a coherent narrative. Exposure to high lithium levels improves rates of employment among those who participate in the labor market, but it decreases rates of measures of labor market participation otherwise. 
+These are not the results I was expecting. They do, however, suggest a coherent story. Exposure to high lithium levels improves rates of employment among those who participate in the labor market, but it decreases rates of measures of labor market participation otherwise. 
+
+The number of treated observations dropped in the matching procedure for the outcome "Worked Last Week" casts doubt on whether the identifying assumptions hold true in that case.
 
 ### Covariate Balance Checks
+
+```{r cb_table_setup, echo=F, warning=F}
+
+# create table by hand because I'm lazy
+cb_table = data.table('Covariate' = c('General Quarters', 'Education', 'Usual Hours Worked Weekly'),
+                      "Employment Status" = c(-0.51047, -7.1367, ' '), 
+                      "Lab. Force Part." = c(-0.29018, -7.8795, ' '),  
+                      "Looked for Work" = c(-0.21544, -9.371, ' '), 
+                      "Worked Last Week" = c(' ', -19.434, 4.033), 
+                      "Worked Last Year" = c(-0.23887, -8.0146, ' ')
+                      )
+```
+
+Table 2 shows for each outcome only the differences in covariate means that were not exactly balanced after matching.
+
+```{r cb_table_empstat, results='asis', echo=F, warning=F}
+
+kableExtra::kable(cb_table, 'latex', caption = "Standardized Differences in Covariate Means After Matching", booktabs = TRUE) %>%
+  kableExtra::landscape()
+```
 
 ## Conclusion
 
@@ -149,7 +178,7 @@ While the presence of lithium in groundwater is thought to be associated with lo
 
 I echo the conclusion of many of the papers that have studied lithium in the context of suicide: This question deserves a large-scale randomized controlled trial to answer it once and for all. If such an experiment is performed, it is important to collect economic data in addition to tracking suicide rates so that we more fully understand the positive and negative consequences of trace levels of lithium in our environment. 
 
-For the code used to generate my results and this paper, see <https://github.com/nfra/CausalInferenceCourseHomework/tree/master/ResearchProject>.
+*For the code used to generate my results and this paper, see <https://github.com/nfra/CausalInferenceCourseHomework/tree/master/ResearchProject>.*
 
 ## References
 
