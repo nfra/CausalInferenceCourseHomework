@@ -2,6 +2,7 @@ library(tidyverse)
 library(sf)
 library(data.table)
 library(Matching)
+library(stringr)
 
 #####################
 # import shapefiles #
@@ -18,7 +19,7 @@ pumas = subset(pumas, as.numeric(as.character(STATEFIP)) <= 56)
 #######################
 
 # read lithium data
-interpolated_lithium_values = as.data.frame(read.csv("./data/lithium_water_data/interp_values.csv", 
+interpolated_lithium_values = as.data.table(read.csv("./data/lithium_water_data/interp_values.csv", 
                                                               stringsAsFactors = FALSE))
 # turn geometry back into coordinates
 coords_flat = unlist(strsplit(substr(interpolated_lithium_values$geometry, 3, nchar(interpolated_lithium_values$geometry) - 1), ', '))
@@ -45,28 +46,70 @@ for(puma_number_local in seq(nrow(pumas)))
 # make treatment variable per PUMA, lithium value > 70 mcg/l
 pumas$treatment_value = (pumas$lithium_value > 70)
 
+# make geometry-less object for matching
+pumas_df = st_drop_geometry(pumas[,c(1,10)])
+
 # remove unnecessary objects from the environment to free up space in memory
 rm(grid_in_puma_list, grid_points_in_puma, interpolated_lithium_values, interpolated_lithium_values_sf, coords_flat, puma_number_local)
 
 # a few plots to include in write-up
-ggplot(data = pumas) +
-  geom_histogram(aes(x = lithium_value), binwidth = 5)
+#ggplot(data = pumas) +
+#  geom_histogram(aes(x = lithium_value), binwidth = 5)
 
-ggplot(data = pumas) +
-  geom_sf(aes(fill = lithium_value, color = lithium_value))
+#ggplot(data = pumas) +
+#  geom_sf(aes(fill = lithium_value, color = lithium_value))
 
-ggplot(data = pumas) +
-  geom_sf(aes(fill = treatment_value, color = treatment_value))
+#ggplot(data = pumas) +
+#  geom_sf(aes(fill = treatment_value, color = treatment_value))
 
 ##############
 # import ACS #
 ##############
 
-acs = as.data.table(read.csv("./data/ipums_usa_data/usa_00005.csv"))
+# load acs 2012-2013 for time's sake
+acs = as.data.table(rbind(read.csv("./data/ipums_usa_data/usa_00010.csv"),read.csv("./data/ipums_usa_data/usa_00011.csv")))
 
-Match(Y = )
+# take subsets (dropping NAs mostly)
+acs = subset(acs, MOVEDIN > 0)
+acs = subset(acs, RACE < 7)
+acs = subset(acs, SPEAKENG < 7)
+acs = subset(acs, MARRINYR > 0)
+acs = subset(acs, DIVINYR > 0)
+acs = subset(acs, FERTYR > 0)
+acs = subset(acs, SCHOOL == 1 | SCHOOL == 2)
+acs = subset(acs, METRO > 0)
+
+# create puma code variable
+acs$pumacode = as.numeric(paste0(acs$STATEFIP, str_pad(acs$PUMA, 5, side='left', pad='0')))
+
+# create treatment variable per person in PUMA
+acs$treatment = pumas_df[match(acs$pumacode, pumas_df$GISMATCH), 'treatment_value']
+
+# take subset without NA in treatment
+acs = subset(acs, !is.na(acs$treatment))
 
 
-summary(acs$WKSWORK2)
 
-summary(acs$MOVEDIN)
+
+
+############
+# matching #
+############
+
+prop_score = glm(treatment ~ YEAR + REGION + , family = binomial, data = acs)
+
+
+match = Match(
+  Y = acs[EMPSTAT == 1 | EMPSTAT == 2, 'EMPSTAT']$EMPSTAT,
+  Tr = acs[EMPSTAT == 1 | EMPSTAT == 2, 'treatment']$treatment,
+  X = acs[EMPSTAT == 1 | EMPSTAT == 2, c(1,9,62)],
+  version = 'fast',
+  ties = FALSE
+)
+
+summary(match)
+summary.Match(match)
+mb = MatchBalance(treatment ~ (YEAR + REGION + MOVEDIN)^2, data = subset(acs, EMPSTAT == 1 | EMPSTAT == 2), match)
+
+
+glm(treatment, method = 'binomial')
