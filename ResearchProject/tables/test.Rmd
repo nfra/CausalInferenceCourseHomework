@@ -1,0 +1,26 @@
+---
+title: "test"
+author: "Nathan Franz"
+date: "5/18/2020"
+output: pdf_document
+header-includes: 
+  - \usepackage{booktabs}
+---
+```{r setup}
+library(data.table)
+library(kableExtra)
+```
+
+
+```{r test, results = 'asis'}
+dt = data.table(' ' = c("estimate", "se", ' ', "T-stat"),
+           'exact' = c(1.111, 2.111, ' ', 3.111),
+           'prop score' = c(4.111, 5.111, ' ', 6.111),
+           'exact' = c(1.555, 2.555, ' ', 3.555),
+           'prop score' = c(4.555, 5.555, ' ', 6.555))
+
+kable(dt, 'latex', caption = "test", booktabs = TRUE) %>%
+  add_header_above(c(' ', "outcome1" = 2, "outcome2" = 2)) %>%
+  landscape()
+```
+
